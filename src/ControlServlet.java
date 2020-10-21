@@ -126,17 +126,20 @@ public class ControlServlet extends HttpServlet {
         String birthday = request.getParameter("birthday");
         String gender = request.getParameter("gender");
         User newUser = new User(email, firstName, lastName, password, birthday, gender);
-        request.setAttribute("user", newUser);       
-        if (password.equals(password2)) {
-	        userDAO.insert(newUser);
-	        user = newUser;
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
-            dispatcher.forward(request, response);
-        } else {
-        	 request.setAttribute("url", "insert");
-        	 request.setAttribute("message", "Passwords do not match. Please try again");
-        	 RequestDispatcher dispatcher = request.getRequestDispatcher("ErrorPage.jsp");       
-             dispatcher.forward(request, response);
+        User tempUser = userDAO.getUser(email);
+        if(tempUser == null) {
+	        if (password.equals(password2)) {
+		        userDAO.insert(newUser);
+		        user = newUser;
+		        request.setAttribute("user", newUser);       
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
+	            dispatcher.forward(request, response);
+	        } else {
+	        	 request.setAttribute("url", "insert");
+	        	 request.setAttribute("message", "Passwords do not match. Please try again");
+	        	 RequestDispatcher dispatcher = request.getRequestDispatcher("ErrorPage.jsp");       
+	             dispatcher.forward(request, response);
+	        }
         }
     }
     

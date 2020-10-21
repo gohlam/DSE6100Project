@@ -59,7 +59,26 @@ public class UserDAO {
     			"birthday VARCHAR(30), gender VARCHAR(15), " + 
     			"primary key(email))";
     	statement.executeUpdate(sqlCreateUser);
-    	//TODO insert records
+    	String sql1 = "INSERT INTO User(email, password, firstName, lastName) VALUES ('root', 'pass1234', 'root', 'root')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('test1', 'testpassword', 'Test', 'User', 'male', '8/13/1993')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('ameen@wayne.edu', 'testpassword', 'Ameen', 'A', 'male', '5/23/1993')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('allison@wayne.edu', 'testpassword', 'Allison', 'G', 'female', '3/30/1995')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('test2', 'testpassword2', 'Test2', 'User', 'female', '3/25/2001')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('junwen@wayne.edu', 'pass1234', 'Junwen', 'J', 'male', '6/7/1992')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('sydney@wayne.edu', 'pass5678', 'Sydney', 'T', 'female', '11/21/1995')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('jared@wayne.edu', 'password', 'Jared', 'G', 'male', '10/4/1997')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('ginny@wayne.edu', 'catsRcool', 'Ginny', 'F', 'female', '4/5/1998')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('cassidy@wayne.edu', 'pass5678', 'Cassidy', 'W', 'female', '7/15/1996')";
+    	statement.executeUpdate(sql1);
     }
     
     protected void disconnect() throws SQLException {

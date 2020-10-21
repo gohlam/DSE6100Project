@@ -71,7 +71,31 @@ public class InitializeDAO {
     			"title VARCHAR(100), description VARCHAR(350), " + 
     			"date DATE, primary key(URL))";
     	statement.executeUpdate(sqlCreateVideo);
-    	// TODO insert records
+    	String date = java.time.LocalDate.now().toString();
+    	System.out.println(date);
+    	String sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/nRlZAjtEQ_8', 'How to Tile A Shower', "
+    			+ "'This is a comprehensive Tutorial for anyone looking to learn how to install really large tile! We will show You how to install, level, grout and trim plus discuss all the best tools and techniques to getting the job done. ', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/hM0LLNZqv1s', 'How to Replace Damaged Vinyl Siding', "
+    			+ "'Today Im sharing with my secret vinyl siding weapon. Its a vinyl siding tool that costs less than ten bucks, and can save you tens of thousands of dollars in the long run! If youre working with vinyl siding you need this tool in your back pocket.', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/dyDJjPWbRHU', 'How to Install Trim', "
+    			+ "'Todays video is a special one; its an A to Z all things finished carpentry! Were going to be covering so many things from filler strips, to toe kicks, how to trim out old windows and make custom sills, baseboards, quarter round, shoe molds, door casings.', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/baCMjhENGEE', 'How to Install Laminate Countertops', 'Forget about granite or quartz!!! In this video learn why I installed laminate and how to install it in your new kitchen to get a million dollar look!', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/PkvKO8GchyE', 'How to Build a Deck', 'How to use Lowes Deck Designer Software to design a deck and build it.', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/xi1b5vvTDWk', 'DIY Staircase Makeover', 'See all the steps we took in this DIY Staircase Makeover to transforming our old staircase into an entryway statement piece.', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/2G5f_LpdLh0', '30 Easy DIY Projects For Beginners ', 'We have a bunch of cool DIY projects lined up just for you so take your pick and have fun creating something special.', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/knBsMeDM5Ac', 'DIY Small Bathroom Remodel', 'This bath renovation included how to install a shower surround with tile, installing a toilet, new vanity and lighting. ', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/CRXCB_3gLok', 'How to Paint a Room', 'Here are tips for painting a room, including how to get started, techniques, using rollers, finishing and how to clean up.', CURDATE())";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/7ZCeqcrftDk', '10 EASY + INEXPENSIVE HOME IMPROVEMENTS', '10 easy + inexpensive home projects + DIYs that YOU can do yourself!', CURDATE())";
+    	statement.executeUpdate(sql1);
     }
     
     public void initializeFavVideo() throws SQLException {
