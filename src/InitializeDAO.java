@@ -105,7 +105,16 @@ public class InitializeDAO {
     			"foreign key(email) references User(email), " + 
     			"foreign key(URL) references Video(URL)) ";
     	statement.executeUpdate(sqlFavVideo);
-    	//TODO insert records
+    	String sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('ameen@wayne.edu', 'https://youtu.be/nRlZAjtEQ_8')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('ameen@wayne.edu', 'https://youtu.be/hM0LLNZqv1s')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('ameen@wayne.edu', 'https://youtu.be/dyDJjPWbRHU')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('ameen@wayne.edu', 'https://youtu.be/baCMjhENGEE')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('ameen@wayne.edu', 'https://youtu.be/PkvKO8GchyE')";
+    	statement.executeUpdate(sql1);
     }
     
     public void initializeReview() throws SQLException {
@@ -115,7 +124,27 @@ public class InitializeDAO {
     			"foreign key (email) references User(email), " + 
     			"foreign key (URL) references Video(URL))";
     	statement.executeUpdate(sqlCreateReview);
-    	//TODO insert records
+    	statement.executeUpdate(sqlCreateReview);
+    	String sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('What a long video!! But it was so helpful', 'Fair', ameen@wayne.edu, 'https://youtu.be/nRlZAjtEQ_8')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Thank you Jeff! That was very brief and to the point', 'Good', allison@wayne.edu, 'https://youtu.be/hM0LLNZqv1s')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('I absolutely love your videos :)', 'Excellent', junwen@wayne.edu, 'https://youtu.be/dyDJjPWbRHU')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Going to do this for my bathroom', 'Good', sydney@wayne.edu, 'https://youtu.be/baCMjhENGEE')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('I knew I had to hire someone to build my deck as soon as he said parallelogram', 'Fair', jared@wayne.edu, 'https://youtu.be/PkvKO8GchyE')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('I'm watching this but I don't even have stairs in my home... thank you anyway!', 'Good', ginny@wayne.edu, 'https://youtu.be/xi1b5vvTDWk')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('THIS MUSIC IN THE VIDEO DRIVES ME CRAZY!', 'Fair', cassidy@wayne.edu, 'https://youtu.be/2G5f_LpdLh0')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Awesome video tutorial! Well done!', 'Excellent', ameen@wayne.edu, 'https://youtu.be/knBsMeDM5Ac')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Did they just tell me to put toxic paint and a dirty brush into my fridge??', 'Poor', allison@wayne.edu, 'https://youtu.be/CRXCB_3gLok')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('The kitchen painting project was a big one, but it majorly paid off', 'Good', junwen@wayne.edu, 'https://youtu.be/7ZCeqcrftDk')";
+    	statement.executeUpdate(sql1);
     }
     
     public void initializeQuestion() throws SQLException {
