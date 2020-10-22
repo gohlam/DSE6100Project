@@ -115,6 +115,16 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('ameen@wayne.edu', 'https://youtu.be/PkvKO8GchyE')";
     	statement.executeUpdate(sql1);
+	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('allison@wayne.edu', 'https://youtu.be/xi1b5vvTDWk')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('allison@wayne.edu', 'https://youtu.be/2G5f_LpdLh0')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('allison@wayne.edu', 'https://youtu.be/knBsMeDM5Ac')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('allison@wayne.edu', 'https://youtu.be/CRXCB_3gLok')";
+    	statement.executeUpdate(sql1);
+    	sql1 = "INSERT INTO FavVideo(email, URL) VALUES ('allison@wayne.edu', 'https://youtu.be/7ZCeqcrftDk')";
+    	statement.executeUpdate(sql1);	
     }
     
     public void initializeReview() throws SQLException {
