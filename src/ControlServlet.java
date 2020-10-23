@@ -135,12 +135,17 @@ public class ControlServlet extends HttpServlet {
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
 	            dispatcher.forward(request, response);
 	        } else {
-	        	 request.setAttribute("url", "insert");
+	        	 request.setAttribute("url", "new");
 	        	 request.setAttribute("message", "Passwords do not match. Please try again");
 	        	 RequestDispatcher dispatcher = request.getRequestDispatcher("ErrorPage.jsp");       
 	             dispatcher.forward(request, response);
 	        }
-        }
+        } else {
+       	 request.setAttribute("url", "new");
+       	 request.setAttribute("message", "Email already exists.");
+       	 RequestDispatcher dispatcher = request.getRequestDispatcher("ErrorPage.jsp");       
+            dispatcher.forward(request, response);
+       }
     }
     
     private void initializeDB(HttpServletRequest request, HttpServletResponse response)
