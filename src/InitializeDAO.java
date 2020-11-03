@@ -67,32 +67,32 @@ public class InitializeDAO {
     
     
     public void initializeVideo() throws SQLException {
-    	String sqlCreateVideo = "CREATE TABLE IF NOT EXISTS Video ( URL VARCHAR(250), " + 
-    			"title VARCHAR(100), description VARCHAR(350), " + 
-    			"date DATE, primary key(URL))";
+    	String sqlCreateVideo = "CREATE TABLE IF NOT EXISTS Video ( URL VARCHAR(250) NOT NULL, " + 
+    			"title VARCHAR(100), description VARCHAR(350), qid INTEGER, email VARCHAR(100)" + 
+    			"postdate DATE, primary key(URL), foreign key(email) references User(email), foreign key (qid) references Question(questionID))";
     	statement.executeUpdate(sqlCreateVideo);
-    	String sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/nRlZAjtEQ_8', 'How to Tile A Shower', "
-    			+ "'This is a comprehensive Tutorial for anyone looking to learn how to install really large tile! We will show You how to install, level, grout and trim plus discuss all the best tools and techniques to getting the job done. ', CURDATE())";
+    	String sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/nRlZAjtEQ_8', 'How to Tile A Shower', "
+    			+ "'This is a comprehensive Tutorial for anyone looking to learn how to install really large tile! We will show You how to install, level, grout and trim plus discuss all the best tools and techniques to getting the job done.', 1, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/hM0LLNZqv1s', 'How to Replace Damaged Vinyl Siding', "
-    			+ "'Today Im sharing with my secret vinyl siding weapon. Its a vinyl siding tool that costs less than ten bucks, and can save you tens of thousands of dollars in the long run! If youre working with vinyl siding you need this tool in your back pocket.', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/hM0LLNZqv1s', 'How to Replace Damaged Vinyl Siding', "
+    			+ "'Today Im sharing with my secret vinyl siding weapon. Its a vinyl siding tool that costs less than ten bucks, and can save you tens of thousands of dollars in the long run! If youre working with vinyl siding you need this tool in your back pocket.', 2, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/dyDJjPWbRHU', 'How to Install Trim', "
-    			+ "'Todays video is a special one; its an A to Z all things finished carpentry! Were going to be covering so many things from filler strips, to toe kicks, how to trim out old windows and make custom sills, baseboards, quarter round, shoe molds, door casings.', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/dyDJjPWbRHU', 'How to Install Trim', "
+    			+ "'Todays video is a special one; its an A to Z all things finished carpentry! Were going to be covering so many things from filler strips, to toe kicks, how to trim out old windows and make custom sills, baseboards, quarter round, shoe molds, door casings.', 3, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/baCMjhENGEE', 'How to Install Laminate Countertops', 'Forget about granite or quartz!!! In this video learn why I installed laminate and how to install it in your new kitchen to get a million dollar look!', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/baCMjhENGEE', 'How to Install Laminate Countertops', 'Forget about granite or quartz!!! In this video learn why I installed laminate and how to install it in your new kitchen to get a million dollar look!', 4, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/PkvKO8GchyE', 'How to Build a Deck', 'How to use Lowes Deck Designer Software to design a deck and build it.', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/PkvKO8GchyE', 'How to Build a Deck', 'How to use Lowes Deck Designer Software to design a deck and build it.', 5, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/xi1b5vvTDWk', 'DIY Staircase Makeover', 'See all the steps we took in this DIY Staircase Makeover to transforming our old staircase into an entryway statement piece.', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/xi1b5vvTDWk', 'DIY Staircase Makeover', 'See all the steps we took in this DIY Staircase Makeover to transforming our old staircase into an entryway statement piece.', 6, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/2G5f_LpdLh0', '30 Easy DIY Projects For Beginners ', 'We have a bunch of cool DIY projects lined up just for you so take your pick and have fun creating something special.', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/2G5f_LpdLh0', '30 Easy DIY Projects For Beginners ', 'We have a bunch of cool DIY projects lined up just for you so take your pick and have fun creating something special.', 7, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/knBsMeDM5Ac', 'DIY Small Bathroom Remodel', 'This bath renovation included how to install a shower surround with tile, installing a toilet, new vanity and lighting. ', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/knBsMeDM5Ac', 'DIY Small Bathroom Remodel', 'This bath renovation included how to install a shower surround with tile, installing a toilet, new vanity and lighting. ', 8, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/CRXCB_3gLok', 'How to Paint a Room', 'Here are tips for painting a room, including how to get started, techniques, using rollers, finishing and how to clean up.', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/CRXCB_3gLok', 'How to Paint a Room', 'Here are tips for painting a room, including how to get started, techniques, using rollers, finishing and how to clean up.', 9, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, date) VALUES ('https://youtu.be/7ZCeqcrftDk', '10 EASY + INEXPENSIVE HOME IMPROVEMENTS', '10 easy + inexpensive home projects + DIYs that YOU can do yourself!', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/7ZCeqcrftDk', '10 EASY + INEXPENSIVE HOME IMPROVEMENTS', '10 easy + inexpensive home projects + DIYs that YOU can do yourself!', 10, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
     }
     
@@ -128,57 +128,59 @@ public class InitializeDAO {
     public void initializeReview() throws SQLException {
     	String sqlCreateReview = "CREATE TABLE IF NOT EXISTS Review ( " + 
     			"comment VARCHAR(250), score VARCHAR(20), email VARCHAR(100), " + 
-    			"URL VARCHAR(250), primary key (email, URL), " + 
+    			"URL VARCHAR(250), reviewDate DATE, primary key (email, URL), " + 
     			"foreign key (email) references User(email), " + 
     			"foreign key (URL) references Video(URL))";
     	statement.executeUpdate(sqlCreateReview);
     	statement.executeUpdate(sqlCreateReview);
-    	String sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('What a long video!! But it was so helpful', 'Fair', 'ameen@wayne.edu', 'https://youtu.be/nRlZAjtEQ_8')";
+    	String sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('What a long video!! But it was so helpful', 'Fair', 'ameen@wayne.edu', 'https://youtu.be/nRlZAjtEQ_8', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Thank you Jeff! That was very brief and to the point', 'Good', 'allison@wayne.edu', 'https://youtu.be/hM0LLNZqv1s')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Thank you Jeff! That was very brief and to the point', 'Good', 'allison@wayne.edu', 'https://youtu.be/hM0LLNZqv1s', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('I absolutely love your videos :)', 'Excellent', 'junwen@wayne.edu', 'https://youtu.be/dyDJjPWbRHU')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('I absolutely love your videos :)', 'Excellent', 'junwen@wayne.edu', 'https://youtu.be/dyDJjPWbRHU', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Going to do this for my bathroom', 'Good', 'sydney@wayne.edu', 'https://youtu.be/baCMjhENGEE')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Going to do this for my bathroom', 'Good', 'sydney@wayne.edu', 'https://youtu.be/baCMjhENGEE', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('I knew I had to hire someone to build my deck as soon as he said parallelogram', 'Fair', 'jared@wayne.edu', 'https://youtu.be/PkvKO8GchyE')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('I knew I had to hire someone to build my deck as soon as he said parallelogram', 'Fair', 'jared@wayne.edu', 'https://youtu.be/PkvKO8GchyE', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Im watching this but I dont even have stairs in my home... thank you anyway!', 'Good', 'ginny@wayne.edu', 'https://youtu.be/xi1b5vvTDWk')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Im watching this but I dont even have stairs in my home... thank you anyway!', 'Good', 'ginny@wayne.edu', 'https://youtu.be/xi1b5vvTDWk', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('THIS MUSIC IN THE VIDEO DRIVES ME CRAZY!', 'Fair', 'cassidy@wayne.edu', 'https://youtu.be/2G5f_LpdLh0')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('THIS MUSIC IN THE VIDEO DRIVES ME CRAZY!', 'Fair', 'cassidy@wayne.edu', 'https://youtu.be/2G5f_LpdLh0', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Awesome video tutorial! Well done!', 'Excellent', 'ameen@wayne.edu', 'https://youtu.be/knBsMeDM5Ac')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Awesome video tutorial! Well done!', 'Excellent', 'ameen@wayne.edu', 'https://youtu.be/knBsMeDM5Ac', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('Did they just tell me to put toxic paint and a dirty brush into my fridge??', 'Poor', 'allison@wayne.edu', 'https://youtu.be/CRXCB_3gLok')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Did they just tell me to put toxic paint and a dirty brush into my fridge??', 'Poor', 'allison@wayne.edu', 'https://youtu.be/CRXCB_3gLok', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL) VALUES ('The kitchen painting project was a big one, but it majorly paid off', 'Good', 'junwen@wayne.edu', 'https://youtu.be/7ZCeqcrftDk')";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('The kitchen painting project was a big one, but it majorly paid off', 'Good', 'junwen@wayne.edu', 'https://youtu.be/7ZCeqcrftDk', CURDATE())";
     	statement.executeUpdate(sql1);
     }
     
     public void initializeQuestion() throws SQLException {
     	String sqlCreateQuestion = "CREATE TABLE IF NOT EXISTS Question ( " + 
-    			"questionID integer NOT NULL AUTO_INCREMENT, question VARCHAR(250), date DATE, " + 
+    			"questionID integer NOT NULL AUTO_INCREMENT, question VARCHAR(250)," +
+    			" date DATE, email VARCHAR(100), " + 
+    			"foreign key (email) references User(email), " + 
     			"primary key (questionID)) ";
     	statement.executeUpdate(sqlCreateQuestion);
-    	String sql1 = "INSERT INTO Question(question, date) VALUES ('How to paint a wall?', CURDATE())";
+    	String sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to paint a wall?', CURDATE(), 'ameen@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('How to repair vinyl siding?', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to repair vinyl siding?', CURDATE(), 'allison@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('How to install trim?', CURDATE())";
+    	sql1 = "INSERT INTO Question((question, date, email) VALUES ('How to install trim?', CURDATE(), 'jared@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('How to install countertops?', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to install countertops?', CURDATE(), 'cassidy@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('DIY deck backyard?', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('DIY deck backyard?', CURDATE(), 'cassidy@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('Staircase makeover ideas', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('Staircase makeover ideas', CURDATE(), 'ginny@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('DIY easy home updates', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('DIY easy home updates', CURDATE(), 'ameen@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('How to update an old bathroom?', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to update an old bathroom?', CURDATE(), 'sydney@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('How to install tile?', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to install tile?', CURDATE(), 'junwen@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('DIY home improvements', CURDATE())";
+    	sql1 = "INSERT INTO Question(question, date) VALUES ('DIY home improvements', CURDATE(), 'allison@wayne.edu')";
     	statement.executeUpdate(sql1);
     }
     
@@ -210,36 +212,6 @@ public class InitializeDAO {
     	sql1 = "INSERT INTO Tag(questionID, tag) VALUES (10, 'makeover')";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Tag(questionID, tag) VALUES (10, 'easy')";
-    	statement.executeUpdate(sql1);
-    }
-    
-    public void initializePost() throws SQLException {
-    	String sqlCreatePost = "CREATE TABLE IF NOT EXISTS Post ( email VARCHAR(100), " + 
-    			"URL VARCHAR(250), questionID integer, " + 
-    			"primary key(email, questionID), " + 
-    			"foreign key(email) references User(email), " + 
-    			"foreign key(URL) references Video(URL), " + 
-    			"foreign key(questionID) references Question(questionID))";
-    	statement.executeUpdate(sqlCreatePost);
-    	String sql1 = "INSERT INTO Post(questionID, email) VALUES (1, 'ameen@wayne.edu')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email, URL) VALUES (2, 'ameen@wayne.edu', 'https://youtu.be/hM0LLNZqv1s')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email) VALUES (3, 'ameen@wayne.edu')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email, URL) VALUES (4, 'ameen@wayne.edu', 'https://youtu.be/baCMjhENGEE')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email) VALUES (5, 'ameen@wayne.edu')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email, URL) VALUES (6, 'allison@wayne.edu', 'https://youtu.be/xi1b5vvTDWk')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email) VALUES (7, 'allison@wayne.edu')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email, URL) VALUES (8, 'allison@wayne.edu', 'https://youtu.be/knBsMeDM5Ac')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email) VALUES (9, 'allison@wayne.edu')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Post(questionID, email, URL) VALUES (10, 'allison@wayne.edu', 'https://youtu.be/7ZCeqcrftDk')";
     	statement.executeUpdate(sql1);
     }
     

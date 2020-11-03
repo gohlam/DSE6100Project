@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,6 +59,8 @@ public class ControlServlet extends HttpServlet {
             	break;
             case "/welcome":
             	showWelcomePage(request, response);
+            case "/all":
+            	showAllVideos(request, response);
             default:
             	showLoginForm(request, response);
                 break;
@@ -89,6 +92,9 @@ public class ControlServlet extends HttpServlet {
           if(tempUser != null) {
 	          if (password.equals(tempUser.password)) {
 	        	  user = tempUser;
+	              HttpSession session = request.getSession();
+	        	  session.setAttribute("email", tempUser.email);
+	        	  session.setAttribute("name", tempUser.firstName + " " + tempUser.lastName);
 	        	  request.setAttribute("user", tempUser);
 	        	  RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
 	              dispatcher.forward(request, response);
@@ -154,15 +160,19 @@ public class ControlServlet extends HttpServlet {
     	userDAO.connect_func();
     	initializeDAO.dropTables();
     	userDAO.initializeUser();
+    	initializeDAO.initializeQuestion();
+    	initializeDAO.initializeTag();
     	initializeDAO.initializeVideo();
     	initializeDAO.initializeFavVideo();
     	initializeDAO.initializeReview();
-    	initializeDAO.initializeQuestion();
-    	initializeDAO.initializeTag();
-    	initializeDAO.initializePost();
     	userDAO.disconnect();
     	initializeDAO.disconnect();
     	RequestDispatcher dispatcher = request.getRequestDispatcher("Success.jsp");       
         dispatcher.forward(request, response);
     }   
+    
+    private void showAllVideos(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	
+    }
 }

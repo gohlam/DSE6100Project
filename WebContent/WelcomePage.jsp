@@ -24,6 +24,22 @@
        <c:if test="${user.email == 'root' }">
 		<a href="initialize" class="button"> Initialize Database </a>
 		</c:if>
+		<form action="search" method="get">
+			Search for a Video: <input type="text" name="keyword">
+			<input type ="submit" value="Search">
+		</form>
+		<div>
+		<a href="upload" class="button"> Upload a Video </a>
+		</div>
+		<div>
+		<a href="ask" class="button"> Ask a Question </a>
+		</div>
+		<div>
+		<a href="all" class="button"> View All Videos </a>
+		</div>
+		<div>
+		<a href="favorites" class="button"> View Your Favorite Videos </a>
+		</div>
     </div>   
 </body>
 </html>

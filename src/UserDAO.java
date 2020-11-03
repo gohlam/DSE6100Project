@@ -54,8 +54,8 @@ public class UserDAO {
     
     public void initializeUser() throws SQLException {
     	String sqlCreateUser = "CREATE TABLE IF NOT EXISTS User ( \n" + 
-    			"email VARCHAR(100), password VARCHAR(50) NOT NULL, " + 
-    			"firstName VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " + 
+    			"email VARCHAR(100) NOT NULLss, password VARCHAR(50) NOT NULL, " + 
+    			"firstName VARCHAR(50), lastName VARCHAR(50), " + 
     			"birthday VARCHAR(30), gender VARCHAR(15), " + 
     			"primary key(email))";
     	statement.executeUpdate(sqlCreateUser);
