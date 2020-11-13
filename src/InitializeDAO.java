@@ -60,15 +60,15 @@ public class InitializeDAO {
     	statement.executeUpdate("DROP TABLE IF EXISTS Post");
     	statement.executeUpdate("DROP TABLE IF EXISTS Tag");
     	statement.executeUpdate("DROP TABLE IF EXISTS Review");
-    	statement.executeUpdate("DROP TABLE IF EXISTS User");
     	statement.executeUpdate("DROP TABLE IF EXISTS Video");
     	statement.executeUpdate("DROP TABLE IF EXISTS Question");
+    	statement.executeUpdate("DROP TABLE IF EXISTS User");
     }
     
     
     public void initializeVideo() throws SQLException {
     	String sqlCreateVideo = "CREATE TABLE IF NOT EXISTS Video ( URL VARCHAR(250) NOT NULL, " + 
-    			"title VARCHAR(100), description VARCHAR(350), qid INTEGER, email VARCHAR(100)" + 
+    			"title VARCHAR(100), description VARCHAR(350), qid INTEGER, email VARCHAR(100), " + 
     			"postdate DATE, primary key(URL), foreign key(email) references User(email), foreign key (qid) references Question(questionID))";
     	statement.executeUpdate(sqlCreateVideo);
     	String sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/nRlZAjtEQ_8', 'How to Tile A Shower', "
@@ -166,7 +166,7 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to repair vinyl siding?', CURDATE(), 'allison@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question((question, date, email) VALUES ('How to install trim?', CURDATE(), 'jared@wayne.edu')";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to install trim?', CURDATE(), 'jared@wayne.edu')";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to install countertops?', CURDATE(), 'cassidy@wayne.edu')";
     	statement.executeUpdate(sql1);
@@ -180,7 +180,7 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Question(question, date, email) VALUES ('How to install tile?', CURDATE(), 'junwen@wayne.edu')";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Question(question, date) VALUES ('DIY home improvements', CURDATE(), 'allison@wayne.edu')";
+    	sql1 = "INSERT INTO Question(question, date, email) VALUES ('DIY home improvements', CURDATE(), 'allison@wayne.edu')";
     	statement.executeUpdate(sql1);
     }
     

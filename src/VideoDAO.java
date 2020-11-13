@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/VideoDAO")
@@ -71,7 +72,7 @@ public class VideoDAO {
     	List<Video> videos = new ArrayList<Video>();
     	Video temp;
     	
-        if (resultSet.next()) {
+        while (resultSet.next()) {
             url = resultSet.getString("URL");
             title = resultSet.getString("title");
             description = resultSet.getString("description");
@@ -82,11 +83,81 @@ public class VideoDAO {
             videos.add(temp);
         }
 
-        preparedStatement.close(); 
         resultSet.close();
         statement.close();
         disconnect();
         return videos;
    }
+
+	public Video getVideo(String url) throws SQLException {
+		connect_func();
+    	String sql = "Select * from Video where URL = ?";
+    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, url);
+        resultSet = preparedStatement.executeQuery();
+    	String title;
+    	String description;
+    	int qid;
+    	String email;
+    	String date;
+    	Video video = null;
+    	
+        while (resultSet.next()) {
+            title = resultSet.getString("title");
+            description = resultSet.getString("description");
+            qid = resultSet.getInt("qid");
+            email = resultSet.getString("email");
+            date = resultSet.getString("postdate");  
+            video = new Video(url, title, description, qid, email, date);
+        }
+
+        preparedStatement.close();
+        resultSet.close();
+        statement.close();
+        disconnect();
+        return video;
+	}
+
+	public List<Video> getSearchResults(String searchVals) throws SQLException {
+		List<Video> videos = new ArrayList<>();
+		String[] splitVals = searchVals.split(" ");
+		String query = buildQuery(splitVals);
+		if (query != null) {
+	    	resultSet = statement.executeQuery(query);
+	    	Video temp;
+	    	String url;
+	    	String title;
+	    	String description;
+	    	int qid;
+	    	String email;
+	    	String date;
+	    	
+	        while (resultSet.next()) {
+	            url = resultSet.getString("URL");
+	            title = resultSet.getString("title");
+	            description = resultSet.getString("description");
+	            qid = resultSet.getInt("qid");
+	            email = resultSet.getString("email");
+	            date = resultSet.getString("postdate");  
+	            temp = new Video(url, title, description, qid, email, date);
+	            videos.add(temp);
+	        }
+	        
+	        resultSet.close();
+	        statement.close();
+	        disconnect();
+		}
+        return videos;
+	}
+	
+	private String buildQuery(String[] keywords) {
+		String query = null;
+		if(keywords.length > 0) {
+			for(String s: keywords) {
+				
+			}
+		}
+		return query;
+	}
 
 }

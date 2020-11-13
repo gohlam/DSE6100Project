@@ -50,20 +50,90 @@ public class ReviewDAO {
         }
     }
     
-    public Boolean hasReview(String email, String url) {
-    	return false;
+    
+    public List<String> usersReviewedVids(String email) throws SQLException {
+    	connect_func();         
+		String sql = "Select URL FROM Review where email = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		
+        resultSet = preparedStatement.executeQuery();
+        List<String> reviewedVids = new ArrayList<String>();
+        while (resultSet.next()) {
+            reviewedVids.add(resultSet.getString("URL"));
+        }
+        preparedStatement.close();
+        statement.close();
+        disconnect();
+        return reviewedVids;
     }
     
-    public List<String> usersReviewedVids(String email) {
+    public void removeReview(String url, String email) throws SQLException {
+    	connect_func();         
+		String sql = "DELETE FROM Review WHERE email = ? AND URL = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, url);
+		
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        statement.close();
+        disconnect();    	
+    }
+    
+    public void addReview(Review review) throws SQLException {
+    	connect_func();         
+		String sql = "insert into Review(comment, score, email, URL, reviewDate) values (?, ?, ?, ?, CURDATE())";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, review.comment);
+		preparedStatement.setString(2, review.score);
+		preparedStatement.setString(3, review.email);
+		preparedStatement.setString(4, review.url);
+		
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        statement.close();
+        disconnect();  
+    }
+    
+    public Review getReview(String url, String email) throws SQLException {
+    	connect_func();         
+		String sql = "Select * FROM Review where email = ? and url = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, url);
+
+        resultSet = preparedStatement.executeQuery();
+        Review temp = new Review();
+        temp.setURL("");
+        while (resultSet.next()) {
+            temp.setURL(resultSet.getString("URL"));
+            temp.setComment(resultSet.getString("comment"));
+            temp.setDate(resultSet.getString("reviewDate"));
+            temp.setEmail(resultSet.getString("email"));
+            temp.setScore(resultSet.getString("score"));
+        }
+        preparedStatement.close();
+        statement.close();
+        resultSet.close();
+        disconnect();
+        return temp;
     	
     }
     
-    public void removeReview(String url, String email) {
-    	
-    }
-    
-    public void addReview(Review review) {
-    	
+    public void updateReview(Review review) throws SQLException {
+    	connect_func();         
+		String sql = "Update Review SET comment = ?, score = ?, reviewDate = CURDATE() where email = ? and URL = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, review.comment);
+		preparedStatement.setString(2, review.score);
+		preparedStatement.setString(3, review.email);
+		preparedStatement.setString(4, review.url);
+		
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        statement.close();
+        disconnect();  
     }
 
 }

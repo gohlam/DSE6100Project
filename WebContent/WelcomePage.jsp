@@ -20,8 +20,8 @@
     </center>
 	
     <div align="center">
-       <h3 align="center"> Welcome ${user.firstName }</h3>
-       <c:if test="${user.email == 'root' }">
+       <h3 align="center"> Welcome ${sessionScope.name }</h3>
+       <c:if test="${sessionScope.email == 'root' }">
 		<a href="initialize" class="button"> Initialize Database </a>
 		</c:if>
 		<form action="search" method="get">

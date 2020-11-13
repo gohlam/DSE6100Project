@@ -76,20 +76,52 @@ public class FavVideoDAO {
         disconnect();    	
     }
     
-    public List<String> getUsersFavVideos(String email) throws SQLException {
+    public List<Video> getUsersFavVideos(String email) throws SQLException {
     	connect_func();         
-		String sql = "Select URL FROM FavoriteVideos where email = ?";
+		String sql = "Select * FROM FavoriteVideos F, Video V where V.URL = F.URL and F.email = ?";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, email);
-		
+	
         resultSet = preparedStatement.executeQuery();
+        String url;
+    	String title;
+    	String description;
+    	int qid;
+    	String vidEmail;
+    	String date;
+        List<Video> favVideos = new ArrayList<Video>();
+        Video temp;
+        while (resultSet.next()) {
+        	url = resultSet.getString("URL");
+        	title = resultSet.getString("title");
+        	description = resultSet.getString("description");
+        	qid = resultSet.getInt("qid");
+        	vidEmail = resultSet.getString("email");
+        	date = resultSet.getString("postdate");  
+        	temp = new Video(url, title, description, qid, vidEmail, date);
+            favVideos.add(temp);
+        }
         preparedStatement.close();
         statement.close();
         disconnect();
+        return favVideos;
+    	
+    }
+    
+    public List<String> getUsersFavVideosURLs(String email) throws SQLException {
+    	connect_func();         
+		String sql = "Select URL FROM FavoriteVideos F where email = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+	
+        resultSet = preparedStatement.executeQuery();
         List<String> favVideos = new ArrayList<String>();
-        if (resultSet.next()) {
+        while (resultSet.next()) {
             favVideos.add(resultSet.getString("URL"));
         }
+        preparedStatement.close();
+        statement.close();
+        disconnect();
         return favVideos;
     	
     }

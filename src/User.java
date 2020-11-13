@@ -1,10 +1,12 @@
+import java.util.Date;
+
 public class User {
     protected String email;
     protected String password;
     protected String password2;
     protected String firstName;
     protected String lastName;
-    protected String birthday;
+    protected Date birthday;
     protected String gender;
  
     public User() {
@@ -14,18 +16,18 @@ public class User {
         this.email = email;
     }
  
-    public User(String email, String firstName, String lastName, String password, String password2, String birthday, String gender) {
+    public User(String email, String firstName, String lastName, String password, String password2, Date birthday, String gender) {
         this(firstName, lastName, password, birthday, gender);
         this.email = email;
         this.password2 = password2;
     }
     
-    public User(String email, String firstName, String lastName, String password, String birthday, String gender) {
+    public User(String email, String firstName, String lastName, String password, Date birthday, String gender) {
         this(firstName, lastName, password, birthday, gender);
         this.email = email;
     }
      
-    public User(String firstName, String lastName, String password, String birthday, String gender) {
+    public User(String firstName, String lastName, String password, Date birthday, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -66,10 +68,10 @@ public class User {
     }
     
     public String getBirthday() {
-        return birthday;
+        return birthday.toString();
     }
  
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
     

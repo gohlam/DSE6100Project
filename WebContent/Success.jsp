@@ -23,6 +23,9 @@
        <h3 align="center"> Success</h3>
 
 	<p> Successfully created tables and inserted data
+	<p>
+		<a href="welcome" class="button"> Return to Welcome Page</a>
+		</p>
 </p></div>  
 </body>
 </html>
