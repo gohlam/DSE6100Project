@@ -120,9 +120,12 @@ public class VideoDAO {
 
 	public List<Video> getSearchResults(String searchVals) throws SQLException {
 		List<Video> videos = new ArrayList<>();
+		searchVals = removePunctuation(searchVals);
 		String[] splitVals = searchVals.split(" ");
 		String query = buildQuery(splitVals);
+		System.out.println(query);
 		if (query != null) {
+			connect_func();
 	    	resultSet = statement.executeQuery(query);
 	    	Video temp;
 	    	String url;
@@ -151,13 +154,22 @@ public class VideoDAO {
 	}
 	
 	private String buildQuery(String[] keywords) {
-		String query = null;
+		String query = "";
 		if(keywords.length > 0) {
 			for(String s: keywords) {
-				
+				query = query + "SELECT * FROM Video WHERE title LIKE '%" + s + "%' UNION ";
 			}
 		}
+		query = query.substring(0, query.length() - 7);
 		return query;
+	}
+	
+	private String removePunctuation(String search) {
+		List<String> chars = new ArrayList<>(Arrays.asList(".", ",", "?", "/", "!"));
+		for (String c: chars) {
+			search = search.replace(c, "");
+		}
+		return search;
 	}
 
 }

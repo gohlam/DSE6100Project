@@ -68,24 +68,34 @@ public class ControlServlet extends HttpServlet {
             	break;
             case "/welcome":
             	showWelcomePage(request, response);
+            	break;
             case "/all":
             	showAllVideos(request, response);
+            	break;
             case "/favorites":
             	showAllFavorites(request, response);
+            	break;
             case "/search":
             	getSearchResults(request, response);
+            	break;
             case "/remove":
             	removeVideoFromFav(request, response);
+            	break;
             case "/video":
             	showVideoDetails(request, response);
+            	break;
             case "/add":
             	addFavVideo(request, response);
+            	break;
             case "/addReview":
             	addReview(request, response);
+            	break;
             case "/updateReview":
             	updateReview(request, response);
+            	break;
 			case "/removeReview":
             	removeReview(request, response);
+            	break;
             default:
             	showLoginForm(request, response);
                 break;
@@ -141,6 +151,7 @@ public class ControlServlet extends HttpServlet {
             throws ServletException, IOException {
     	HttpSession session = request.getSession();
   	  	String email = (String) session.getAttribute("email");
+  	  	System.out.println(email);
   	  	if (email != null) {
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
 	        dispatcher.forward(request, response);
@@ -272,7 +283,7 @@ public class ControlServlet extends HttpServlet {
   	  	String email = (String) session.getAttribute("email");
   	  	if (email != null) {
 	        String url = request.getParameter("url");
-	        favVideoDAO.addFavVideo(user.email, url);
+	        favVideoDAO.addFavVideo(email, url);
 	        response.sendRedirect("favorites");  // The sendRedirect() method works at client side and sends a new request
   	  	} else {
   	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
@@ -289,6 +300,7 @@ public class ControlServlet extends HttpServlet {
   	  		List<Video> searchVideos = videoDAO.getSearchResults(searchVals);
 	  	  	request.setAttribute("videos", searchVideos);
 	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
+	  	  	System.out.println(favVideos);
 	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
 	      	request.setAttribute("favVideos", favVideos);
 	      	request.setAttribute("reviewedVideos", reviewedVideos);
