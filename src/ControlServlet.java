@@ -104,8 +104,12 @@ public class ControlServlet extends HttpServlet {
 				break;
 			case "/insertVideo":
 				insertVideo(request, response);
-			case "/ask":
-				
+			case "/addQuestion":
+				addQuestion(request, response);	
+				break;
+		    	case "/removeQuestion":
+				removeQuestion(request, response);
+			    	break;
             default:
             	showLoginForm(request, response);
                 break;
@@ -115,7 +119,42 @@ public class ControlServlet extends HttpServlet {
         }
     }
     
- 
+// insert or remove questions
+	
+     private void addQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	  	if (email != null) {
+  	  		String questionID = request.getParameter("QuestionID");
+	    	String question = request.getParameter("question");
+	    	String tag = request.getParameter("tag");
+	    	Question question = new Review(question, tag, (String) session.getAttribute("email"), questionID);
+	    	QuestionDAO.addQuestion(question);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+	        dispatcher.forward(request, response);
+  	  	} else {
+  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+         dispatcher.forward(request, response);
+  	  	}
+    }
+
+    private void removeQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	  	if (email != null) {
+	        String questionID = request.getParameter("questionID");
+	        QuestionDAO.removeQuestion(questionID, (String) session.getAttribute("email"));
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
+	        dispatcher.forward(request, response);
+  	  	} else {
+  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+         dispatcher.forward(request, response);
+  	  	}
+    }
+	
+	
     // to insert a user
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
