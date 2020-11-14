@@ -20,6 +20,11 @@ public class Question {
 		this.date = date;
 	}
 	
+	public Question(String question, int questionID) {
+		this.question = question;
+		this.questionID = questionID;
+	}
+	
 	public int getQuestionID() {
 		return questionID;
 	}

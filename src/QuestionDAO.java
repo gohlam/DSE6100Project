@@ -28,6 +28,7 @@ public class QuestionDAO {
 		
 	}
 	
+	 /**
      * @see HttpServlet#HttpServlet()
      */
     protected void connect_func() throws SQLException {
@@ -71,7 +72,6 @@ public class QuestionDAO {
     	return questions;
     }
 
-}
 
 	public void addQuestion(String email, String question, String tag) throws SQLException {
     	connect_func();         

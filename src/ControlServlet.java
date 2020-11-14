@@ -104,6 +104,8 @@ public class ControlServlet extends HttpServlet {
 				break;
 			case "/insertVideo":
 				insertVideo(request, response);
+			case "/ask":
+				
             default:
             	showLoginForm(request, response);
                 break;
@@ -184,7 +186,6 @@ public class ControlServlet extends HttpServlet {
 		try {
 			birthday = format.parse(birthString);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         String gender = request.getParameter("gender");
