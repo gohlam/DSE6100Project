@@ -107,8 +107,8 @@ public class ControlServlet extends HttpServlet {
 			case "/addQuestion":
 				addQuestion(request, response);	
 				break;
-		    	case "/removeQuestion":
-				removeQuestion(request, response);
+		    case "/removeQuestion":
+			removeQuestion(request, response);
 			    	break;
             default:
             	showLoginForm(request, response);
@@ -127,10 +127,10 @@ public class ControlServlet extends HttpServlet {
   	  	String email = (String) session.getAttribute("email");
   	  	if (email != null) {
   	  		String questionID = request.getParameter("QuestionID");
-	    	String question = request.getParameter("question");
+	    	String questionStr = request.getParameter("question");
 	    	String tag = request.getParameter("tag");
-	    	Question question = new Review(question, tag, (String) session.getAttribute("email"), questionID);
-	    	QuestionDAO.addQuestion(question);
+	    	Question question = new Question(Integer.valueOf(questionID), questionStr, (String) session.getAttribute("email"), tag);
+	    	questionDAO.addQuestion(question.email, question.question, question.tag);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
 	        dispatcher.forward(request, response);
   	  	} else {
@@ -145,7 +145,7 @@ public class ControlServlet extends HttpServlet {
   	  	String email = (String) session.getAttribute("email");
   	  	if (email != null) {
 	        String questionID = request.getParameter("questionID");
-	        QuestionDAO.removeQuestion(questionID, (String) session.getAttribute("email"));
+	        questionDAO.removeQuestion((String) session.getAttribute("email"), Integer.valueOf(questionID));
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
 	        dispatcher.forward(request, response);
   	  	} else {

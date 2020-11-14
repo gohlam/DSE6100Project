@@ -87,13 +87,12 @@ public class QuestionDAO {
         disconnect();    	
     }
     
-    public void removeQuestion(String email, String question, String tag) throws SQLException {
+    public void removeQuestion(String email, int questionID) throws SQLException {
     	connect_func();         
-	String sql = "DELETE FROM Questions WHERE email = ? AND question = ? AND tag = ?";
-	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-	preparedStatement.setString(1, email);
-	preparedStatement.setString(2, question);
-	preparedStatement.setString(3, tag);
+		String sql = "DELETE FROM Questions WHERE email = ? AND questionID = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setInt(2, questionID);
 		
         preparedStatement.executeUpdate();
         preparedStatement.close();
