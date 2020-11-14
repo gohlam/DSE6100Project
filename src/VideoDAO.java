@@ -117,6 +117,21 @@ public class VideoDAO {
         disconnect();
         return video;
 	}
+	
+	public void insertVideo(Video video) throws SQLException {
+		connect_func();
+    	String sql = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES (?, ?, ?, ?, ?, CURDATE())";
+    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, video.url);
+		preparedStatement.setString(2, video.title);
+		preparedStatement.setString(3, video.description);
+		preparedStatement.setInt(4, video.qid);
+		preparedStatement.setString(5, video.email);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        statement.close();
+        disconnect();
+	}
 
 	public List<Video> getSearchResults(String searchVals) throws SQLException {
 		List<Video> videos = new ArrayList<>();

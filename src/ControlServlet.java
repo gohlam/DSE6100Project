@@ -4,7 +4,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
- 
+import java.util.Map;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -34,6 +35,7 @@ public class ControlServlet extends HttpServlet {
     private FavVideoDAO favVideoDAO;
     private ReviewDAO reviewDAO;
     private User user;
+    private QuestionDAO questionDAO;
  
     public void init() {
         userDAO = new UserDAO();
@@ -41,6 +43,7 @@ public class ControlServlet extends HttpServlet {
         videoDAO = new VideoDAO();
         favVideoDAO = new FavVideoDAO();
         reviewDAO = new ReviewDAO();
+        questionDAO = new QuestionDAO();
     }
  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -96,6 +99,11 @@ public class ControlServlet extends HttpServlet {
 			case "/removeReview":
             	removeReview(request, response);
             	break;
+			case "/upload":
+				showVideoForm(request, response);
+				break;
+			case "/insertVideo":
+				insertVideo(request, response);
             default:
             	showLoginForm(request, response);
                 break;
@@ -377,7 +385,6 @@ public class ControlServlet extends HttpServlet {
     
     private void removeReview(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-    	System.out.println("remove");
     	HttpSession session = request.getSession();
   	  	String email = (String) session.getAttribute("email");
   	  	if (email != null) {
@@ -389,6 +396,40 @@ public class ControlServlet extends HttpServlet {
   	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
          dispatcher.forward(request, response);
   	  	}
+    }
+    
+    private void showVideoForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	  	if (email != null) {
+  	  		List<Question> questionList = questionDAO.getQuestions();
+  	  		request.setAttribute("questions", questionList);
+  	  		RequestDispatcher dispatcher = request.getRequestDispatcher("InsertVideo.jsp");
+	        dispatcher.forward(request, response);
+  	  	} else {
+  	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+  	         dispatcher.forward(request, response);
+  	  	}
+    	
+    }
+    
+    private void insertVideo(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	  	if (email != null) {
+	  	  	String url = request.getParameter("url");
+	    	String title = request.getParameter("title");
+	    	String description = request.getParameter("description");
+	    	String qid = request.getParameter("qid");
+	    	Video vid = new Video(url, title, description, Integer.valueOf(qid), (String) session.getAttribute("email"));
+	    	videoDAO.insertVideo(vid);
+  	  	} else {
+  	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+  	         dispatcher.forward(request, response); 	
+  	  	}
+    	
     }
     
     
