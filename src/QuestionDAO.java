@@ -23,9 +23,11 @@ public class QuestionDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public QuestionDAO() {}
+
+	public QuestionDAO() {
+		
+	}
 	
-	   /**
      * @see HttpServlet#HttpServlet()
      */
     protected void connect_func() throws SQLException {
@@ -69,4 +71,75 @@ public class QuestionDAO {
     	return questions;
     }
 
+}
+
+	public void addQuestion(String email, String question, String tag) throws SQLException {
+    	connect_func();         
+	String sql = "insert into Question(email, question, tag) values (?, ?, ?)";
+	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+	preparedStatement.setString(1, email);
+	preparedStatement.setString(2, question);
+	preparedStatement.setString(3, tag);
+		
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        statement.close();
+        disconnect();    	
+    }
+    
+    public void removeQuestion(String email, String question, String tag) throws SQLException {
+    	connect_func();         
+	String sql = "DELETE FROM Questions WHERE email = ? AND question = ? AND tag = ?";
+	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+	preparedStatement.setString(1, email);
+	preparedStatement.setString(2, question);
+	preparedStatement.setString(3, tag);
+		
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        statement.close();
+        disconnect();    	
+    }
+    
+    public Question getQuestion(String email, String question, String tag) throws SQLException {
+    	connect_func();         
+		String sql = "Select * FROM Question where email = ? AND url = ? AND tag =?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, question);
+		preparedStatement.setString(3, tag);
+
+        resultSet = preparedStatement.executeQuery();
+        Question temp = new Question();
+        while (resultSet.next()) {
+        	temp.setQuestionID(resultSet.getInt("questionID"));
+        	temp.setEmail(resultSet.getString("email"));
+            temp.setQuestion(resultSet.getString("question"));
+            temp.setTag(resultSet.getString("tag"));
+            temp.setDate(resultSet.getString("date"));
+        }
+        preparedStatement.close();
+        statement.close();
+        resultSet.close();
+        disconnect();
+        return temp;
+    	
+    }
+
+    public List<String> usersQuestion(String email) throws SQLException {
+    	connect_func();         
+		String sql = "Select questionid FROM Question where email = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		
+        resultSet = preparedStatement.executeQuery();
+        List<String> Question = new ArrayList<String>();
+        while (resultSet.next()) {
+            Question.add(resultSet.getString("questionid"));
+        }
+        preparedStatement.close();
+        statement.close();
+        disconnect();
+        return Question;
+        }
 }
