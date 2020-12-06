@@ -26,26 +26,38 @@
     </center>
 
 	   <div style="position: center;">
-            <h4>                ${question.question }
-            </h4>
-            	<div>${question.question }</div>
-            	<p>Posted by: ${question.email }</p>
-                	<object id="video" width="425" height="350" > 
-						<param name="movie" value="${question.questionID }" /> 
-						<embed src="${question.questionID }" type="application/x-shockwave-flash" width="350" height="350" autostart="false"/> 
-					</object> 
-					</div>
-					<div></div>
-					<c:if test="${ asked }">
-					<div style="display: inline-block;">
-					<a href="remove?questionID=${question.url }" class="button"> Remove from Questions </a>
-					</div>
-					</c:if>
-					<div></div>
-					<c:if test="${not  asked }">
-					<div style="display: inline-block;">
-					<a href="add?questionID=${question.url }" class="button"> Add to Questions </a>
-					</div>
+            
+          <form action="addQuestion" method="post">
+        <table border="1" cellpadding="5">
+            <caption>
+                <h2>
+                        Add a New Question
+                </h2>
+            </caption>
+     
+            <tr>
+                <th>Question: </th>
+                <td>
+                    <input type="text" name="question" size="45"
+                            value="<c:out value='${question.question}' />"
+                        />
+                </td>
+            </tr>
+      <%--        <tr>
+                <th>Tag: </th>
+                <td>
+                    <input type="text" name="tag" size="45"
+                            value="<c:out value='${question.tag}' />"
+                        />
+                </td>
+            </tr> --%>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Add Question" />
+                </td>
+            </tr>
+        </table>
+        </form>
 					
 </body>
 </html>

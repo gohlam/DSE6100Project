@@ -104,12 +104,16 @@ public class ControlServlet extends HttpServlet {
 				break;
 			case "/insertVideo":
 				insertVideo(request, response);
+				break;
 			case "/addQuestion":
 				addQuestion(request, response);	
 				break;
 		    case "/removeQuestion":
-			removeQuestion(request, response);
-			    	break;
+		    	removeQuestion(request, response);
+			    break;
+		    case "/ask":
+		    	showQuestion(request, response);
+		    	break;
             default:
             	showLoginForm(request, response);
                 break;
@@ -126,11 +130,8 @@ public class ControlServlet extends HttpServlet {
     	HttpSession session = request.getSession();
   	  	String email = (String) session.getAttribute("email");
   	  	if (email != null) {
-  	  		String questionID = request.getParameter("QuestionID");
 	    	String questionStr = request.getParameter("question");
-	    	String tag = request.getParameter("tag");
-	    	Question question = new Question(Integer.valueOf(questionID), questionStr, (String) session.getAttribute("email"), tag);
-	    	questionDAO.addQuestion(question.email, question.question, question.tag);
+	    	questionDAO.addQuestion((String) session.getAttribute("email"), questionStr);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
 	        dispatcher.forward(request, response);
   	  	} else {
@@ -470,6 +471,12 @@ public class ControlServlet extends HttpServlet {
   	         dispatcher.forward(request, response); 	
   	  	}
     	
+    }
+    
+    private void showQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("Question.jsp");
+	    dispatcher.forward(request, response); 
     }
     
     

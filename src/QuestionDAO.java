@@ -73,13 +73,12 @@ public class QuestionDAO {
     }
 
 
-	public void addQuestion(String email, String question, String tag) throws SQLException {
+	public void addQuestion(String email, String question) throws SQLException {
     	connect_func();         
-	String sql = "insert into Question(email, question, tag) values (?, ?, ?)";
-	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-	preparedStatement.setString(1, email);
-	preparedStatement.setString(2, question);
-	preparedStatement.setString(3, tag);
+		String sql = "insert into Question(email, question, date) values (?, ?, CURDATE())";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, question);
 		
         preparedStatement.executeUpdate();
         preparedStatement.close();
