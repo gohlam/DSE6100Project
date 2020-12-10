@@ -138,7 +138,6 @@ public class VideoDAO {
 		searchVals = removePunctuation(searchVals);
 		String[] splitVals = searchVals.split(" ");
 		String query = buildQuery(splitVals);
-		System.out.println(query);
 		if (query != null) {
 			connect_func();
 	    	resultSet = statement.executeQuery(query);
@@ -166,6 +165,126 @@ public class VideoDAO {
 	        disconnect();
 		}
         return videos;
+	}
+	
+	public List<Video> getCoolVideos() throws SQLException {
+		List<Video> videos = new ArrayList<>();
+		connect_func();
+		String sql = "Select * from Video as V WHERE V.URL NOT IN " +
+		"(SELECT DISTINCT V2.URL from Video as V2, Review as R WHERE (R.score = 'poor' "
+		+ "OR R.score = 'fair' OR R.score = 'good') AND V2.URL = R.URL)";
+		resultSet = statement.executeQuery(sql);
+    	Video temp;
+    	String url;
+    	String title;
+    	String description;
+    	int qid;
+    	String email;
+    	String date;
+    	
+		while (resultSet.next()) {
+			url = resultSet.getString("URL");
+            title = resultSet.getString("title");
+            description = resultSet.getString("description");
+            qid = resultSet.getInt("qid");
+            email = resultSet.getString("email");
+            date = resultSet.getString("postdate");  
+            temp = new Video(url, title, description, qid, email, date);
+            videos.add(temp);
+		}
+		
+	    resultSet.close();
+	    statement.close();
+	    disconnect();
+		return videos;
+	}
+	
+	public List<Video> getVideosByQid(int questionID) throws SQLException {
+		List<Video> videos = new ArrayList<>();
+		connect_func();
+		String sql = "Select * from Video as V, Question Q WHERE V.qid = Q.questionID AND Q.questionID = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setInt(1, questionID);
+        resultSet = preparedStatement.executeQuery();
+        Video temp;
+    	String url;
+    	String title;
+    	String description;
+    	int qid;
+    	String email;
+    	String date;
+        while (resultSet.next()) {
+        	url = resultSet.getString("URL");
+            title = resultSet.getString("title");
+            description = resultSet.getString("description");
+            qid = resultSet.getInt("qid");
+            email = resultSet.getString("email");
+            date = resultSet.getString("postdate");  
+            temp = new Video(url, title, description, qid, email, date);
+            videos.add(temp);
+        }
+		resultSet.close();
+	    preparedStatement.close();
+	    disconnect();
+		return videos;
+	}
+	
+	public List<Video> getTopReviewedVideos() throws SQLException {
+		List<Video> videos = new ArrayList<>();
+		connect_func();
+		String sql = "SELECT V.URL, title, description, qid, V.email, postdate, COUNT(*) as numReviews " +
+				"from Video as V, Review as R WHERE V.URL = R.URL GROUP BY V.URL ORDER BY COUNT(*) DESC " +
+				"LIMIT 3";
+		resultSet = statement.executeQuery(sql);
+		Video temp;
+    	String url;
+    	String title;
+    	String description;
+    	int qid;
+    	String email;
+    	String date;
+		while (resultSet.next()) {
+			url = resultSet.getString("V.URL");
+            title = resultSet.getString("title");
+            description = resultSet.getString("description");
+            qid = resultSet.getInt("qid");
+            email = resultSet.getString("V.email");
+            date = resultSet.getString("postdate");  
+            temp = new Video(url, title, description, qid, email, date);
+            videos.add(temp);
+		}
+		resultSet.close();
+	    statement.close();
+	    disconnect();
+		return videos;
+	}
+	
+	public List<Video> getVideosByUser(String email) throws SQLException {
+		List<Video> videos = new ArrayList<>();
+		connect_func();
+		String sql = "Select * From Video as V WHERE V.email = ?";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+        resultSet = preparedStatement.executeQuery();
+        Video temp;
+    	String url;
+    	String title;
+    	String description;
+    	int qid;
+    	String date;
+        while (resultSet.next() ) {
+        	url = resultSet.getString("URL");
+            title = resultSet.getString("title");
+            description = resultSet.getString("description");
+            qid = resultSet.getInt("qid");
+            date = resultSet.getString("postdate");  
+            temp = new Video(url, title, description, qid, email, date);
+            videos.add(temp);
+        }
+        resultSet.close();
+	    preparedStatement.close();
+	    disconnect();
+		return videos;
 	}
 	
 	private String buildQuery(String[] keywords) {

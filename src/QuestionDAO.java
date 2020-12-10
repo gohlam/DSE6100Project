@@ -123,7 +123,29 @@ public class QuestionDAO {
         return temp;
     	
     }
-
+    
+    public List<Question> getQuestionsWithPoorVideos() throws SQLException {
+    	connect_func();         
+    	List<Question> questions = new ArrayList<Question>();
+    	String sql = "Select * from Question as Q WHERE Q.questionID = " +
+    			"(Select V.qid from Video as V WHERE V.URL NOT IN " +
+    			"(SELECT DISTINCT V2.URL from Video as V2, Review as R " +
+    			"WHERE (R.score = 'excellent' OR R.score = 'fair' OR R.score = 'good') AND V2.URL = R.URL))";
+    	resultSet = statement.executeQuery(sql);
+        Question temp = new Question();
+    	while (resultSet.next()) {
+    		temp.setQuestionID(resultSet.getInt("questionID"));
+        	temp.setEmail(resultSet.getString("email"));
+            temp.setQuestion(resultSet.getString("question"));
+            temp.setTag(resultSet.getString("tag"));
+            temp.setDate(resultSet.getString("date"));
+    	}
+    	statement.close();
+        resultSet.close();
+        disconnect();
+    	return questions;
+    }
+ 
     public List<String> usersQuestion(String email) throws SQLException {
     	connect_func();         
 		String sql = "Select questionid FROM Question where email = ?";
@@ -137,7 +159,23 @@ public class QuestionDAO {
         }
         preparedStatement.close();
         statement.close();
+        resultSet.close();
         disconnect();
         return Question;
         }
+    
+    public List<String> getPopularTags() throws SQLException {
+    	connect_func();         
+    	List<String> tags = new ArrayList<String>();
+    	String sql = "SELECT T.tag FROM Tag as T, Question as Q WHERE T.questionID = Q.questionID " +
+    			"GROUP BY T.tag HAVING COUNT(Q.email) > (SELECT COUNT(*) AS numUsers FROM User)/2";
+    	resultSet = statement.executeQuery(sql);
+    	while (resultSet.next()) {
+    		tags.add(resultSet.getString("T.tag"));
+    	}
+    	statement.close();
+        resultSet.close();
+        disconnect();
+    	return tags;
+    }
 }

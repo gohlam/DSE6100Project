@@ -63,7 +63,6 @@ public class ReviewDAO {
             reviewedVids.add(resultSet.getString("URL"));
         }
         preparedStatement.close();
-        statement.close();
         disconnect();
         return reviewedVids;
     }
@@ -77,7 +76,6 @@ public class ReviewDAO {
 		
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        statement.close();
         disconnect();    	
     }
     
@@ -92,7 +90,6 @@ public class ReviewDAO {
 		
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        statement.close();
         disconnect();  
     }
     
@@ -114,7 +111,6 @@ public class ReviewDAO {
             temp.setScore(resultSet.getString("score"));
         }
         preparedStatement.close();
-        statement.close();
         resultSet.close();
         disconnect();
         return temp;
@@ -132,8 +128,28 @@ public class ReviewDAO {
 		
         preparedStatement.executeUpdate();
         preparedStatement.close();
-        statement.close();
         disconnect();  
+    }
+    
+    public List<String> getTopReviewer() throws SQLException {
+    	connect_func();         
+    	List<String> emails = new ArrayList<>();
+    	String sql = "SELECT R.email, COUNT(*) as num FROM Review as R GROUP BY R.email ORDER BY COUNT(*) DESC";
+        resultSet = statement.executeQuery(sql);
+        int maxCount = 0;
+        while (resultSet.next()) {
+        	int tempNum = resultSet.getInt("num");
+        	if (tempNum >= maxCount) {
+        		emails.add(resultSet.getString("R.email"));
+        		maxCount = tempNum;
+        	} else {
+        		break;
+        	}
+        }
+        resultSet.close();
+        statement.close();
+    	disconnect();  
+    	return emails;
     }
 
 }

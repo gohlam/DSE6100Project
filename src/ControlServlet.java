@@ -114,6 +114,16 @@ public class ControlServlet extends HttpServlet {
 		    case "/ask":
 		    	showQuestion(request, response);
 		    	break;
+		    case "/cool":
+		    	break;
+		    case "/hot":
+		    	break;
+		    case "/popular":
+		    	break;
+		    case "/top":
+		    	break;
+		    case "/poor":
+		    	break;
             default:
             	showLoginForm(request, response);
                 break;
@@ -466,6 +476,8 @@ public class ControlServlet extends HttpServlet {
 	    	String qid = request.getParameter("qid");
 	    	Video vid = new Video(url, title, description, Integer.valueOf(qid), (String) session.getAttribute("email"));
 	    	videoDAO.insertVideo(vid);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
+	        dispatcher.forward(request, response);
   	  	} else {
   	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
   	         dispatcher.forward(request, response); 	
