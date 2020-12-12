@@ -34,7 +34,6 @@ public class ControlServlet extends HttpServlet {
     private VideoDAO videoDAO;
     private FavVideoDAO favVideoDAO;
     private ReviewDAO reviewDAO;
-    private User user;
     private QuestionDAO questionDAO;
  
     public void init() {
@@ -54,7 +53,6 @@ public class ControlServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getServletPath();
-        System.out.println(action);
         try {
             switch (action) {
             case "/new":
@@ -131,6 +129,10 @@ public class ControlServlet extends HttpServlet {
 		    	break;
 		    case "/user":
 		    	usersVideos(request, response);
+		    	break;
+		    case "/questionVideos":
+		    	videoQuestion(request, response);
+		    	break;
             default:
             	showLoginForm(request, response);
                 break;
@@ -193,7 +195,6 @@ public class ControlServlet extends HttpServlet {
           User tempUser = userDAO.getUser(email);
           if(tempUser != null) {
 	          if (password.equals(tempUser.password)) {
-	        	  user = tempUser;
 	              HttpSession session = request.getSession();
 	        	  session.setAttribute("email", tempUser.email);
 	        	  session.setAttribute("name", tempUser.firstName + " " + tempUser.lastName);
@@ -250,7 +251,6 @@ public class ControlServlet extends HttpServlet {
         if(tempUser == null) {
 	        if (password.equals(password2)) {
 		        userDAO.insert(newUser);
-		        user = newUser;
 		        request.setAttribute("user", newUser);       
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
 	            dispatcher.forward(request, response);
@@ -298,6 +298,7 @@ public class ControlServlet extends HttpServlet {
 	    	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
 	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
 	      	request.setAttribute("videos", videos);
+	  	  	request.setAttribute("pageTitle", "All Videos");
 	      	request.setAttribute("favVideos", favVideos);
 	      	request.setAttribute("reviewedVideos", reviewedVideos);
 	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
@@ -318,6 +319,7 @@ public class ControlServlet extends HttpServlet {
 	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
 	      	request.setAttribute("favVideos", favVideos);
 	    	request.setAttribute("videos", videos);
+	    	request.setAttribute("pageTitle", "Your Favorite Videos: ");
 	      	request.setAttribute("reviewedVideos", reviewedVideos);
 	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
 	        dispatcher.forward(request, response);
@@ -364,8 +366,8 @@ public class ControlServlet extends HttpServlet {
   	  		String searchVals = request.getParameter("keyword");
   	  		List<Video> searchVideos = videoDAO.getSearchResults(searchVals);
 	  	  	request.setAttribute("videos", searchVideos);
+	  	  	request.setAttribute("pageTitle", "Search Results:");
 	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
-	  	  	System.out.println(favVideos);
 	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
 	      	request.setAttribute("favVideos", favVideos);
 	      	request.setAttribute("reviewedVideos", reviewedVideos);
@@ -397,10 +399,13 @@ public class ControlServlet extends HttpServlet {
 	        } else {
 	            request.setAttribute("reviewed", false);
 	        }
+	        List<Review> reviews = reviewDAO.getReviews(url);
+	        request.setAttribute("reviews", reviews);
 	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Video.jsp");       
 	        dispatcher.forward(request, response);
   	  	} else {
-  	  		
+	  	  	RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	        dispatcher.forward(request, response);
   	  	}
     }
     
@@ -480,7 +485,7 @@ public class ControlServlet extends HttpServlet {
 	    	String title = request.getParameter("title");
 	    	String description = request.getParameter("description");
 	    	String qid = request.getParameter("qid");
-	    	Video vid = new Video(url, title, description, Integer.valueOf(qid), (String) session.getAttribute("email"));
+	    	Video vid = new Video(url, title, description, qid, (String) session.getAttribute("email"));
 	    	videoDAO.insertVideo(vid);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");       
 	        dispatcher.forward(request, response);
@@ -509,9 +514,15 @@ public class ControlServlet extends HttpServlet {
     	HttpSession session = request.getSession();
   	  	String email = (String) session.getAttribute("email");
   	  	if (email != null) {
-  	  		videoDAO.getCoolVideos();
-	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
-		    dispatcher.forward(request, response); 
+  	  		List<Video> coolVideos = videoDAO.getCoolVideos();
+	  	   	request.setAttribute("videos", coolVideos);
+	  	  	request.setAttribute("pageTitle", "Cool Videos:");
+	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
+	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
+	      	request.setAttribute("favVideos", favVideos);
+	      	request.setAttribute("reviewedVideos", reviewedVideos);
+	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
+	        dispatcher.forward(request, response);
   	  	} else {
 	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
 	         dispatcher.forward(request, response); 	
@@ -525,8 +536,8 @@ public class ControlServlet extends HttpServlet {
   	    if (email != null) {
   	    	List<Video> hotVideos = videoDAO.getTopReviewedVideos();
 	  	  	request.setAttribute("videos", hotVideos);
+	  	  	request.setAttribute("pageTitle", "Hot Videos:");
 	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
-	  	  	System.out.println(favVideos);
 	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
 	      	request.setAttribute("favVideos", favVideos);
 	      	request.setAttribute("reviewedVideos", reviewedVideos);
@@ -591,8 +602,9 @@ public class ControlServlet extends HttpServlet {
 	  	  	String userEmail = request.getParameter("email");
 	    	List<Video> userVideos = videoDAO.getVideosByUser(userEmail);
 	    	request.setAttribute("videos", userVideos);
+	    	String title = userEmail + " Videos";
+	  	  	request.setAttribute("pageTitle", title);
 	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
-	  	  	System.out.println(favVideos);
 	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
 	      	request.setAttribute("favVideos", favVideos);
 	      	request.setAttribute("reviewedVideos", reviewedVideos);
@@ -603,5 +615,31 @@ public class ControlServlet extends HttpServlet {
 	         dispatcher.forward(request, response); 	
 	  	} 
     }
+    
+    private void videoQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+	    if (email != null) { 
+	    	String qid = request.getParameter("qid");
+	    	List<Video> qVideos = videoDAO.getVideosByQid(qid);
+	    	request.setAttribute("videos", qVideos);
+	    	String title = "Videos";
+	    	if (qVideos.size() > 0) {
+	    		title = qVideos.get(0).getQuestion() + " " + title;
+	    	}
+	  	  	request.setAttribute("pageTitle", title);
+	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
+	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
+	      	request.setAttribute("favVideos", favVideos);
+	      	request.setAttribute("reviewedVideos", reviewedVideos);
+	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
+	        dispatcher.forward(request, response);
+	    	
+	    } else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	} 
+   }
     
 }

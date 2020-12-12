@@ -151,5 +151,27 @@ public class ReviewDAO {
     	disconnect();  
     	return emails;
     }
-
+    
+    public List<Review> getReviews(String url) throws SQLException {
+    	List<Review> reviews = new ArrayList<>();
+    	connect_func();
+    	String sql = "SELECT * FROM Review WHERE URL = ?";
+    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, url);
+        resultSet = preparedStatement.executeQuery();
+        String comment;
+        String score;
+        String email;
+        while (resultSet.next()) {
+        	comment = resultSet.getString("comment");
+        	score = resultSet.getString("score");
+        	email = resultSet.getString("email");
+        	Review temp = new Review(comment, score, email, url);
+        	reviews.add(temp);
+        }
+    	resultSet.close();
+        preparedStatement.close();
+    	disconnect();
+    	return reviews;
+    }
 }

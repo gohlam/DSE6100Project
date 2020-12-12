@@ -61,12 +61,13 @@ public class VideoDAO {
     
     public List<Video> getAllVideos () throws SQLException {
     	connect_func();
-    	String sql = "Select * from Video;";
+    	String sql = "Select * from Video as V, Question as Q WHERE V.qid = Q.questionID;";
     	resultSet = statement.executeQuery(sql);
     	String url;
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String email;
     	String date;
     	List<Video> videos = new ArrayList<Video>();
@@ -76,10 +77,11 @@ public class VideoDAO {
             url = resultSet.getString("URL");
             title = resultSet.getString("title");
             description = resultSet.getString("description");
-            qid = resultSet.getInt("qid");
+            qid = resultSet.getString("qid");
+            question = resultSet.getString("question");
             email = resultSet.getString("email");
             date = resultSet.getString("postdate");  
-            temp = new Video(url, title, description, qid, email, date);
+            temp = new Video(url, title, description, qid, question, email, date);
             videos.add(temp);
         }
 
@@ -91,13 +93,14 @@ public class VideoDAO {
 
 	public Video getVideo(String url) throws SQLException {
 		connect_func();
-    	String sql = "Select * from Video where URL = ?";
+    	String sql = "Select * from Video as V, Question as Q where URL = ? AND V.qid = Q.questionID";
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, url);
         resultSet = preparedStatement.executeQuery();
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String email;
     	String date;
     	Video video = null;
@@ -105,10 +108,11 @@ public class VideoDAO {
         while (resultSet.next()) {
             title = resultSet.getString("title");
             description = resultSet.getString("description");
-            qid = resultSet.getInt("qid");
+            qid = resultSet.getString("qid");
+            question = resultSet.getString("question");
             email = resultSet.getString("email");
             date = resultSet.getString("postdate");  
-            video = new Video(url, title, description, qid, email, date);
+            video = new Video(url, title, description, qid, question, email, date);
         }
 
         preparedStatement.close();
@@ -125,7 +129,7 @@ public class VideoDAO {
 		preparedStatement.setString(1, video.url);
 		preparedStatement.setString(2, video.title);
 		preparedStatement.setString(3, video.description);
-		preparedStatement.setInt(4, video.qid);
+		preparedStatement.setString(4, video.qid);
 		preparedStatement.setString(5, video.email);
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -145,7 +149,8 @@ public class VideoDAO {
 	    	String url;
 	    	String title;
 	    	String description;
-	    	int qid;
+	    	String qid;
+	    	String question;
 	    	String email;
 	    	String date;
 	    	
@@ -153,10 +158,11 @@ public class VideoDAO {
 	            url = resultSet.getString("URL");
 	            title = resultSet.getString("title");
 	            description = resultSet.getString("description");
-	            qid = resultSet.getInt("qid");
+	            qid = resultSet.getString("qid");
+	            question = resultSet.getString("question");
 	            email = resultSet.getString("email");
 	            date = resultSet.getString("postdate");  
-	            temp = new Video(url, title, description, qid, email, date);
+	            temp = new Video(url, title, description, qid, question, email, date);
 	            videos.add(temp);
 	        }
 	        
@@ -170,15 +176,19 @@ public class VideoDAO {
 	public List<Video> getCoolVideos() throws SQLException {
 		List<Video> videos = new ArrayList<>();
 		connect_func();
-		String sql = "Select * from Video as V WHERE V.URL NOT IN " +
-		"(SELECT DISTINCT V2.URL from Video as V2, Review as R WHERE (R.score = 'poor' "
-		+ "OR R.score = 'fair' OR R.score = 'good') AND V2.URL = R.URL)";
+		String sql = "Select * from Video as V, Question as Q " + 
+				"WHERE V.qid = Q.questionID AND V.URL IN " + 
+				"(SELECT DISTINCT V3.URL from Video as V3, Review as R2 WHERE V3.URL = R2.URL " + 
+				"AND V3.URL NOT IN( " + 
+				"SELECT DISTINCT V2.URL from Video as V2, Review as R " + 
+				"WHERE (R.score = 'poor' OR R.score = 'fair' OR R.score = 'good') AND V2.URL = R.URL))";
 		resultSet = statement.executeQuery(sql);
     	Video temp;
     	String url;
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String email;
     	String date;
     	
@@ -186,10 +196,11 @@ public class VideoDAO {
 			url = resultSet.getString("URL");
             title = resultSet.getString("title");
             description = resultSet.getString("description");
-            qid = resultSet.getInt("qid");
+            qid = resultSet.getString("qid");
+            question = resultSet.getString("question");
             email = resultSet.getString("email");
             date = resultSet.getString("postdate");  
-            temp = new Video(url, title, description, qid, email, date);
+            temp = new Video(url, title, description, qid, question, email, date);
             videos.add(temp);
 		}
 		
@@ -199,28 +210,30 @@ public class VideoDAO {
 		return videos;
 	}
 	
-	public List<Video> getVideosByQid(int questionID) throws SQLException {
+	public List<Video> getVideosByQid(String questionID) throws SQLException {
 		List<Video> videos = new ArrayList<>();
 		connect_func();
 		String sql = "Select * from Video as V, Question Q WHERE V.qid = Q.questionID AND Q.questionID = ?";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setInt(1, questionID);
+		preparedStatement.setString(1, questionID);
         resultSet = preparedStatement.executeQuery();
         Video temp;
     	String url;
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String email;
     	String date;
         while (resultSet.next()) {
         	url = resultSet.getString("URL");
             title = resultSet.getString("title");
             description = resultSet.getString("description");
-            qid = resultSet.getInt("qid");
+            qid = resultSet.getString("qid");
+            question = resultSet.getString("question");
             email = resultSet.getString("email");
             date = resultSet.getString("postdate");  
-            temp = new Video(url, title, description, qid, email, date);
+            temp = new Video(url, title, description, qid, question, email, date);
             videos.add(temp);
         }
 		resultSet.close();
@@ -232,25 +245,27 @@ public class VideoDAO {
 	public List<Video> getTopReviewedVideos() throws SQLException {
 		List<Video> videos = new ArrayList<>();
 		connect_func();
-		String sql = "SELECT V.URL, title, description, qid, V.email, postdate " +
-				"from Video as V, Review as R WHERE V.URL = R.URL GROUP BY V.URL ORDER BY COUNT(*) DESC " +
+		String sql = "SELECT V.URL, title, description, qid, V.email, postdate, Q.question " +
+				"from Video as V, Question as Q, Review as R WHERE Q.questionID = V.qid AND V.URL = R.URL GROUP BY V.URL ORDER BY COUNT(*) DESC " +
 				"LIMIT 3";
 		resultSet = statement.executeQuery(sql);
 		Video temp;
     	String url;
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String email;
     	String date;
 		while (resultSet.next()) {
 			url = resultSet.getString("V.URL");
             title = resultSet.getString("title");
             description = resultSet.getString("description");
-            qid = resultSet.getInt("qid");
+            qid = resultSet.getString("qid");
+            question = resultSet.getString("question");
             email = resultSet.getString("V.email");
             date = resultSet.getString("postdate");  
-            temp = new Video(url, title, description, qid, email, date);
+            temp = new Video(url, title, description, qid, question, email, date);
             videos.add(temp);
 		}
 		resultSet.close();
@@ -262,7 +277,7 @@ public class VideoDAO {
 	public List<Video> getVideosByUser(String email) throws SQLException {
 		List<Video> videos = new ArrayList<>();
 		connect_func();
-		String sql = "Select * From Video as V WHERE V.email = ?";
+		String sql = "Select * From Video as V, Question as Q WHERE Q.questionID = V.qid AND V.email = ?";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, email);
         resultSet = preparedStatement.executeQuery();
@@ -270,15 +285,17 @@ public class VideoDAO {
     	String url;
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String date;
         while (resultSet.next() ) {
         	url = resultSet.getString("URL");
             title = resultSet.getString("title");
             description = resultSet.getString("description");
-            qid = resultSet.getInt("qid");
+            qid = resultSet.getString("qid");
+            question = resultSet.getString("question");
             date = resultSet.getString("postdate");  
-            temp = new Video(url, title, description, qid, email, date);
+            temp = new Video(url, title, description, qid, question, email, date);
             videos.add(temp);
         }
         resultSet.close();
@@ -291,7 +308,7 @@ public class VideoDAO {
 		String query = "";
 		if(keywords.length > 0) {
 			for(String s: keywords) {
-				query = query + "SELECT * FROM Video WHERE title LIKE '%" + s + "%' UNION ";
+				query = query + "SELECT * FROM Video as V, Question as Q  WHERE V.qid = Q.questionID AND title LIKE '%" + s + "%' UNION ";
 			}
 		}
 		query = query.substring(0, query.length() - 7);

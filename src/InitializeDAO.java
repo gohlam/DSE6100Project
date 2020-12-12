@@ -88,7 +88,7 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/knBsMeDM5Ac', 'DIY Small Bathroom Remodel', 'This bath renovation included how to install a shower surround with tile, installing a toilet, new vanity and lighting. ', 8, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/CRXCB_3gLok', 'How to Paint a Room', 'Here are tips for painting a room, including how to get started, techniques, using rollers, finishing and how to clean up.', 9, 'allison@wayne.edu', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/CRXCB_3gLok', 'How to Paint a Room', 'Here are tips for painting a room, including how to get started, techniques, using rollers, finishing and how to clean up.', 1, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/7ZCeqcrftDk', '10 EASY + INEXPENSIVE HOME IMPROVEMENTS', '10 easy + inexpensive home projects + DIYs that YOU can do yourself!', 10, 'junwen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
@@ -143,7 +143,7 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('I absolutely love your videos :)', 'excellent', 'junwen@wayne.edu', 'https://youtu.be/dyDJjPWbRHU', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Going to do this for my bathroom', 'good', 'sydney@wayne.edu', 'https://youtu.be/baCMjhENGEE', CURDATE())";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Going to do this for my bathroom', 'good', 'sydney@wayne.edu', 'https://youtu.be/ZeewhIe2fns', CURDATE())";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('I knew I had to hire someone to build my deck as soon as he said parallelogram', 'fair', 'jared@wayne.edu', 'https://youtu.be/PkvKO8GchyE', CURDATE())";
     	statement.executeUpdate(sql1);
@@ -153,7 +153,7 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Awesome video tutorial! Well done!', 'excellent', 'ameen@wayne.edu', 'https://youtu.be/knBsMeDM5Ac', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Did they just tell me to put toxic paint and a dirty brush into my fridge??', 'poor', 'allison@wayne.edu', 'https://youtu.be/CRXCB_3gLok', CURDATE())";
+    	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('Did they just tell me to put toxic paint and a dirty brush into my fridge??', 'poor', 'allison@wayne.edu', 'https://youtu.be/K3C3NWTGliE', CURDATE())";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Review(comment, score, email, URL, reviewDate) VALUES ('The kitchen painting project was a big one, but it majorly paid off', 'good', 'junwen@wayne.edu', 'https://youtu.be/7ZCeqcrftDk', CURDATE())";
     	statement.executeUpdate(sql1);

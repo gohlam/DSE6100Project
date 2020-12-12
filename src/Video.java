@@ -3,14 +3,15 @@ public class Video {
 	protected String url;
 	protected String title;
 	protected String description;
-	protected int qid;
+	protected String qid;
+	protected String question;
 	protected String email;
 	protected String date;
 	
 	public Video() {
 	}
 
-	public Video(String url, String title, String description, int qid, String email) {
+	public Video(String url, String title, String description, String qid, String email) {
 		this.url = url;
 		this.title = title;
 		this.description = description;
@@ -18,8 +19,9 @@ public class Video {
 		this.email = email;
 	}
 		
-	public Video(String url, String title, String description, int qid, String email, String date) {
+	public Video(String url, String title, String description, String qid, String question, String email, String date) {
 		this(url, title, description, qid, email);
+		this.question = question;
 		this.date = date;
 	}
 	
@@ -47,12 +49,20 @@ public class Video {
 		return description;
 	}
 	
-	public void setQID(int qid) {
+	public void setQid(String qid) {
 		this.qid = qid;
 	}
 	
-	public int getQID() {
+	public String getQid() {
 		return qid;
+	}
+	
+	public String getQuestion() {
+		return question;
+	}
+	
+	public void setQuestion(String question)  {
+		this.question = question;
 	}
 	
 	public void setEmail(String email) {

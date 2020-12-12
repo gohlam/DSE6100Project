@@ -29,6 +29,7 @@
             <h4 align="center">                ${video.title }
             </h4>
             	<div align="center">${video.description }</div>
+            	<div align="center">Associated Question: <a href="questionVideos?qid=${video.qid }" class="button">${video.question }</a></div>
             	<p>Posted by: ${video.email }</p>
                 	<object id="video" width="425" height="350" > 
 						<param name="movie" value="${video.url }" /> 
@@ -84,6 +85,14 @@
             	</form>
             	</c:if>
             </div>
+            <div align="center">
+            	<h4 align="center">Other Reviews</h4>
+            	   <c:forEach items="${reviews}" var="r">
+            	   	<div align="center"> ${r.score}: ${r.comment} Reviewed By: ${r.email }
+            	   	</div>
+            	   </c:forEach>
+            </div>
+            
 
 </body>
 </html>

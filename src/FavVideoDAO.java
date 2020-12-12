@@ -78,7 +78,7 @@ public class FavVideoDAO {
     
     public List<Video> getUsersFavVideos(String email) throws SQLException {
     	connect_func();         
-		String sql = "Select * FROM FavoriteVideos F, Video V where V.URL = F.URL and F.email = ?";
+		String sql = "Select * FROM FavoriteVideos F, Video V, Question as Q where V.URL = F.URL and Q.questionID = V.qid and F.email = ?";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, email);
 	
@@ -86,7 +86,8 @@ public class FavVideoDAO {
         String url;
     	String title;
     	String description;
-    	int qid;
+    	String qid;
+    	String question;
     	String vidEmail;
     	String date;
         List<Video> favVideos = new ArrayList<Video>();
@@ -95,10 +96,11 @@ public class FavVideoDAO {
         	url = resultSet.getString("URL");
         	title = resultSet.getString("title");
         	description = resultSet.getString("description");
-        	qid = resultSet.getInt("qid");
+        	qid = resultSet.getString("qid");
+        	question = resultSet.getString("question");
         	vidEmail = resultSet.getString("email");
         	date = resultSet.getString("postdate");  
-        	temp = new Video(url, title, description, qid, vidEmail, date);
+        	temp = new Video(url, title, description, qid, question, vidEmail, date);
             favVideos.add(temp);
         }
         preparedStatement.close();
