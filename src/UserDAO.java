@@ -74,7 +74,7 @@ public class UserDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('test1', 'testpassword', 'Test', 'User', 'male', ?)";
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('test1@wayne.edu', 'testpassword', 'Test', 'User', 'male', ?)";
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql1);
 		preparedStatement.setDate(1, sqlDate);
 		preparedStatement.executeUpdate();
@@ -98,7 +98,7 @@ public class UserDAO {
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql1);
 		preparedStatement.setDate(1, sqlDate);
 		preparedStatement.executeUpdate();
-    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('test2', 'testpassword2', 'Test2', 'User', 'female', ?)";
+    	sql1 = "INSERT INTO User(email, password, firstName, lastName, gender, birthday) VALUES ('test2@wayne.edu', 'testpassword2', 'Test2', 'User', 'female', ?)";
     	try {
 			utilDate = format.parse("3/25/2001");
 	        sqlDate = new java.sql.Date(utilDate.getTime());

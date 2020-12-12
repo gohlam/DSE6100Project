@@ -115,15 +115,22 @@ public class ControlServlet extends HttpServlet {
 		    	showQuestion(request, response);
 		    	break;
 		    case "/cool":
+		    	coolVideos(request, response);
 		    	break;
 		    case "/hot":
+		    	hotVideos(request, response);
 		    	break;
 		    case "/popular":
+		    	popularTags(request, response);
 		    	break;
 		    case "/top":
+		    	topReviewer(request, response);
 		    	break;
 		    case "/poor":
+		    	poorQuestions(request, response);
 		    	break;
+		    case "/user":
+		    	usersVideos(request, response);
             default:
             	showLoginForm(request, response);
                 break;
@@ -211,7 +218,6 @@ public class ControlServlet extends HttpServlet {
             throws ServletException, IOException {
     	HttpSession session = request.getSession();
   	  	String email = (String) session.getAttribute("email");
-  	  	System.out.println(email);
   	  	if (email != null) {
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
 	        dispatcher.forward(request, response);
@@ -487,9 +493,115 @@ public class ControlServlet extends HttpServlet {
     
     private void showQuestion(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("Question.jsp");
-	    dispatcher.forward(request, response); 
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	  	if (email != null) {
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("Question.jsp");
+		    dispatcher.forward(request, response); 
+  	  	} else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	}
     }
     
+    private void coolVideos(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	  	if (email != null) {
+  	  		videoDAO.getCoolVideos();
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+		    dispatcher.forward(request, response); 
+  	  	} else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	}
+    }
+    
+    private void hotVideos(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	    if (email != null) {
+  	    	List<Video> hotVideos = videoDAO.getTopReviewedVideos();
+	  	  	request.setAttribute("videos", hotVideos);
+	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
+	  	  	System.out.println(favVideos);
+	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
+	      	request.setAttribute("favVideos", favVideos);
+	      	request.setAttribute("reviewedVideos", reviewedVideos);
+	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
+	        dispatcher.forward(request, response);
+	  	} else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	}
+    }
+    
+    private void popularTags(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	    if (email != null) {
+  	    	List<String> tags = questionDAO.getPopularTags();
+  	  		request.setAttribute("popularTags", tags);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+		    dispatcher.forward(request, response); 
+	  	} else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	}
+    }
+    
+    private void topReviewer(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	    if (email != null) {
+  	    	List<String> reviewer = reviewDAO.getTopReviewer();
+  	  		request.setAttribute("topReviewer", reviewer);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+		    dispatcher.forward(request, response); 
+	  	} else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	} 
+    }
+    
+    private void poorQuestions(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+  	    if (email != null) {
+  	    	List<Question> poor = questionDAO.getQuestionsWithPoorVideos();
+  	  		request.setAttribute("poorQuestions", poor);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+		    dispatcher.forward(request, response); 
+	  	} else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	}
+    }
+    
+    private void usersVideos(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+	    if (email != null) { 
+	  	  	String userEmail = request.getParameter("email");
+	    	List<Video> userVideos = videoDAO.getVideosByUser(userEmail);
+	    	request.setAttribute("videos", userVideos);
+	  	  	List<String> favVideos = favVideoDAO.getUsersFavVideosURLs(email);
+	  	  	System.out.println(favVideos);
+	    	List<String> reviewedVideos = reviewDAO.usersReviewedVids(email);
+	      	request.setAttribute("favVideos", favVideos);
+	      	request.setAttribute("reviewedVideos", reviewedVideos);
+	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
+	        dispatcher.forward(request, response);
+	    } else {
+	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	         dispatcher.forward(request, response); 	
+	  	} 
+    }
     
 }

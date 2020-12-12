@@ -101,11 +101,10 @@ public class QuestionDAO {
     
     public Question getQuestion(String email, String question, String tag) throws SQLException {
     	connect_func();         
-		String sql = "Select * FROM Question where email = ? AND url = ? AND tag =?";
+		String sql = "Select * FROM Question where email = ? AND url = ?";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, email);
 		preparedStatement.setString(2, question);
-		preparedStatement.setString(3, tag);
 
         resultSet = preparedStatement.executeQuery();
         Question temp = new Question();
@@ -113,7 +112,6 @@ public class QuestionDAO {
         	temp.setQuestionID(resultSet.getInt("questionID"));
         	temp.setEmail(resultSet.getString("email"));
             temp.setQuestion(resultSet.getString("question"));
-            temp.setTag(resultSet.getString("tag"));
             temp.setDate(resultSet.getString("date"));
         }
         preparedStatement.close();
@@ -127,19 +125,20 @@ public class QuestionDAO {
     public List<Question> getQuestionsWithPoorVideos() throws SQLException {
     	connect_func();         
     	List<Question> questions = new ArrayList<Question>();
-    	String sql = "Select * from Question as Q WHERE Q.questionID = " +
-    			"(Select V.qid from Video as V WHERE V.URL NOT IN " +
+    	String sql = "SELECT * FROM Question as Q WHERE Q.questionID IN " +
+    			"(SELECT DISTINCT V.qid from Video as V WHERE V.URL NOT IN " +
     			"(SELECT DISTINCT V2.URL from Video as V2, Review as R " +
     			"WHERE (R.score = 'excellent' OR R.score = 'fair' OR R.score = 'good') AND V2.URL = R.URL))";
     	resultSet = statement.executeQuery(sql);
-        Question temp = new Question();
-    	while (resultSet.next()) {
-    		temp.setQuestionID(resultSet.getInt("questionID"));
-        	temp.setEmail(resultSet.getString("email"));
-            temp.setQuestion(resultSet.getString("question"));
-            temp.setTag(resultSet.getString("tag"));
-            temp.setDate(resultSet.getString("date"));
-    	}
+    	int qid;
+    	String question;
+    	Question temp;
+        while (resultSet.next()) {
+        	qid = resultSet.getInt("questionID");
+        	question = resultSet.getString("question");
+        	temp = new Question(question, qid);
+        	questions.add(temp);
+        }
     	statement.close();
         resultSet.close();
         disconnect();
@@ -168,10 +167,13 @@ public class QuestionDAO {
     	connect_func();         
     	List<String> tags = new ArrayList<String>();
     	String sql = "SELECT T.tag FROM Tag as T, Question as Q WHERE T.questionID = Q.questionID " +
-    			"GROUP BY T.tag HAVING COUNT(Q.email) > (SELECT COUNT(*) AS numUsers FROM User)/2";
+    			"GROUP BY T.tag HAVING COUNT(Q.email) > ((SELECT COUNT(*) AS numUsers FROM User)/2) - 1";
     	resultSet = statement.executeQuery(sql);
+    	String tag;
     	while (resultSet.next()) {
-    		tags.add(resultSet.getString("T.tag"));
+    		tag = resultSet.getString("T.tag");
+    		System.out.println(tag);
+    		tags.add(tag);
     	}
     	statement.close();
         resultSet.close();

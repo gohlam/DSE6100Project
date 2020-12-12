@@ -28,8 +28,8 @@
     </center>
     
    <c:forEach items="${videos}" var="video">
-            <div style="position: center;">
-            <h4>                ${video.title }
+            <div align="center">
+            <h4 align="center">                ${video.title }
             </h4>
             	<div>${video.description }</div>
             	<p>Posted by: ${video.email }</p>
@@ -37,7 +37,7 @@
 						<param name="movie" value="${video.url }" /> 
 						<embed src="${video.url }" type="application/x-shockwave-flash" width="350" height="350" autostart="false"/> 
 					</object> 
-					</div>
+					<div></div>
 					<c:if test="${not  fn:contains( reviewedVideos, video.url ) }">
 						<div style="display: inline-block;">
 						<a href="video?url=${video.url }" class="button">Add Comment </a>

@@ -92,11 +92,11 @@ public class InitializeDAO {
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/7ZCeqcrftDk', '10 EASY + INEXPENSIVE HOME IMPROVEMENTS', '10 easy + inexpensive home projects + DIYs that YOU can do yourself!', 10, 'junwen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/K3C3NWTGliE', 'Affordable DIY Kitchen Renovation (Before & After)', 'In this video, you'll see DIY concrete countertops, DIY chalk wall, DIY island & cabinets, DIY range & DIY brick backsplash all for $3,200! ', 10, 'ameen@wayne.edu', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/K3C3NWTGliE', 'Affordable DIY Kitchen Renovation (Before & After)', 'In this video, youll see DIY concrete countertops, DIY chalk wall, DIY island & cabinets, DIY range & DIY brick backsplash all for $3,200! ', 10, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/ZeewhIe2fns', 'Remodeling a bathroom for Under $500 | DIY | How To', 'Today on Modern Builds I'm renovating / updating my old, ugly, small bathroom; all for under $500! ', 8, 'ameen@wayne.edu', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/ZeewhIe2fns', 'Remodeling a bathroom for Under $500 | DIY | How To', 'Today on Modern Builds Im renovating / updating my old, ugly, small bathroom; all for under $500! ', 8, 'ameen@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/B16l7RurJuQ', 'DIY Fix Outlet', 'How to safely fix an outlet on your own', 11, '@wayne.edu', CURDATE())";
+    	sql1 = "INSERT INTO Video(URL, title, description, qid, email, postdate) VALUES ('https://youtu.be/B16l7RurJuQ', 'DIY Fix Outlet', 'How to safely fix an outlet on your own', 11, 'allison@wayne.edu', CURDATE())";
     	statement.executeUpdate(sql1);
     }
     
@@ -210,8 +210,6 @@ public class InitializeDAO {
     	sql1 = "INSERT INTO Tag(questionID, tag) VALUES (7, 'easy')";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Tag(questionID, tag) VALUES (7, 'makeover')";
-    	statement.executeUpdate(sql1);
-    	sql1 = "INSERT INTO Tag(questionID, tag) VALUES (7, 'easy')";
     	statement.executeUpdate(sql1);
     	sql1 = "INSERT INTO Tag(questionID, tag) VALUES (7, 'update')";
     	statement.executeUpdate(sql1);

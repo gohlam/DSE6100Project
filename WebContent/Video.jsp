@@ -25,10 +25,10 @@
         </h2>
     </center>
 
-	   <div style="position: center;">
-            <h4>                ${video.title }
+	   <div align="center">
+            <h4 align="center">                ${video.title }
             </h4>
-            	<div>${video.description }</div>
+            	<div align="center">${video.description }</div>
             	<p>Posted by: ${video.email }</p>
                 	<object id="video" width="425" height="350" > 
 						<param name="movie" value="${video.url }" /> 
@@ -37,17 +37,17 @@
 					</div>
 					<div></div>
 					<c:if test="${ favorited }">
-					<div style="display: inline-block;">
+					<div align="center">
 					<a href="remove?url=${video.url }" class="button"> Remove from Favorite Videos </a>
 					</div>
 					</c:if>
 					<div></div>
 					<c:if test="${not  favorited }">
-					<div style="display: inline-block;">
+					<div align="center">
 					<a href="add?url=${video.url }" class="button"> Add to Favorite Videos </a>
 					</div>
 					</c:if>
-            <div>
+            <div align="center">
             	<c:if test="${reviewed}">
             	
             	 <form action="updateReview?url=${video.url }" method="post">

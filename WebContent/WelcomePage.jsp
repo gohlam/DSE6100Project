@@ -40,6 +40,71 @@
 		<div>
 		<a href="favorites" class="button"> View Your Favorite Videos </a>
 		</div>
-    </div>   
+		<c:if test="${sessionScope.email == 'root' }">
+		<div>
+		<a href="cool" class="button"> Cool Videos </a>
+		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
+		<div>
+		<a href="hot" class="button"> Hot Videos </a>
+		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
+		<div>
+		<a href="popular" class="button"> Popular Tags </a>
+		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
+		<div>
+		<a href="top" class="button"> Top Reviewer </a>
+		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
+		<div>
+		<a href="poor" class="button"> Poor Questions </a>
+		</div>
+		</c:if>
+    </div> 
+     <c:if test="${sessionScope.email == 'root' && topReviewer != null}">
+		<div align="center">
+		 <h4 align="center">Top Reviewer</h4>
+		 <table>
+			   <c:forEach items="${topReviewer}" var="reviewer">
+			   	<tr>
+			   		<td> <a href="user?email=${reviewer }" class="button">${reviewer } </a>
+			   		</td>
+			   	</tr>
+				</c:forEach>
+		</table>
+		</div> 
+	</c:if>
+	<c:if test="${sessionScope.email == 'root' && poorQuestions != null}">
+		<div align="center">
+		 <h4 align="center">Poor Questions</h4>
+		 <table>
+			<c:forEach items="${poorQuestions}" var="question">
+				<tr>
+			   		<td> ${question.question }
+			   		</td>
+			   	</tr>
+				</c:forEach>
+				</table>
+		</div> 
+	</c:if>
+	   <c:if test="${sessionScope.email == 'root' && popularTags != null}">
+		<div align="center">
+		 <h4 align="center">Popular Tags</h4>
+		 <table>
+			<c:forEach items="${popularTags}" var="tag">
+				<tr>
+			   		<td> ${tag }
+			   		</td>
+			   	</tr>
+				</c:forEach>
+			</table>
+		</div> 
+	</c:if>
+	
 </body>
 </html>

@@ -232,7 +232,7 @@ public class VideoDAO {
 	public List<Video> getTopReviewedVideos() throws SQLException {
 		List<Video> videos = new ArrayList<>();
 		connect_func();
-		String sql = "SELECT V.URL, title, description, qid, V.email, postdate, COUNT(*) as numReviews " +
+		String sql = "SELECT V.URL, title, description, qid, V.email, postdate " +
 				"from Video as V, Review as R WHERE V.URL = R.URL GROUP BY V.URL ORDER BY COUNT(*) DESC " +
 				"LIMIT 3";
 		resultSet = statement.executeQuery(sql);
