@@ -115,22 +115,41 @@ public class ControlServlet extends HttpServlet {
 		    case "/cool":
 		    	coolVideos(request, response);
 		    	break;
+		    case "/new":
+		    	newQuestions(request, response);
+		    	break;
 		    case "/hot":
 		    	hotVideos(request, response);
 		    	break;
+		    case "/top":
+		    	topQuestions(request, response);
+		    	break;
+		    	Common questions
 		    case "/popular":
 		    	popularTags(request, response);
+		    	break;
+		    case "/common":
+		    	commonQuestions(request, response);
 		    	break;
 		    case "/top":
 		    	topReviewer(request, response);
 		    	break;
+		    case "/positive":
+		    	positiveReviewers(request, response);
+		    	break;
 		    case "/poor":
 		    	poorQuestions(request, response);
 		    	break;
+		    case "/inactive":
+		    	inactiveUsers(request, response);
+		    	break;	
 		    case "/user":
 		    	usersVideos(request, response);
 		    	break;
 		    case "/questionVideos":
+		    	videoQuestion(request, response);
+		    	break;
+		    case "/":
 		    	videoQuestion(request, response);
 		    	break;
             default:
