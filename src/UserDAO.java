@@ -216,4 +216,49 @@ public class UserDAO {
         return user;
     }
 
+	public List<User> getTopUsersWithPositiveReviews() throws SQLException {
+    		List<User> users = new ArrayList<user>();
+    		connect_func();
+		String sql = "SELECT * FROM Video AS V, Question AS Q " + 
+				"WHERE V.qid = Q.questionID AND V.URL IN " + 
+				"(SELECT DISTINCT V3.URL FROM Video AS V3, Review AS R2 WHERE V3.URL = R2.URL " + 
+				"AND V3.URL NOT IN( " + 
+				"SELECT DISTINCT V2.URL FROM Video AS V2, Review AS R " + 
+				"WHERE (R.score = 'poor' OR R.score = 'fair') AND V2.URL = R.URL))";
+    		resultSet = statement.executeQuery(sql);
+		Email temp;    	
+		int revid;
+    		String email;
+        	while (resultSet.next()) {
+			email = resultSet.getString("email");
+        		temp = new Email("email");
+        		users.add(temp);
+		}
+    		statement.close();
+        	resultSet.close();
+        	disconnect();
+    		return users;
+	}
+	
+	public List<User> getInactiveUsers() throws SQLException {
+    		List<User> users = new ArrayList<user>();
+    		connect_func();
+    		String sql = "SELECT * FROM Video AS V, Question AS Q, Reviews AS R " +
+				"GROUP BY Email " +
+				"HAVING SUM(V.URL) = 0 OR SUM(Q.questionID) = 0 OR SUM(R.comment) = 0";
+    		resultSet = statement.executeQuery(sql);
+		Email temp;    	
+		int revid;
+    		String email;
+        	while (resultSet.next()) {
+			email = resultSet.getString("email");
+        		temp = new Email("email");
+        		users.add(temp);
+		}
+    		statement.close();
+        	resultSet.close();
+        	disconnect();
+    		return users;
+	}
+	
 }
