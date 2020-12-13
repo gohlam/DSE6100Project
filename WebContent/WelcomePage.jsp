@@ -129,6 +129,35 @@
 			</table>
 		</div> 
 	</c:if>
+	    
+	<c:if test="${sessionScope.email == 'root' && positiveReviewers != null}">
+	<div align="center">
+	<h4 align="center">Positive Reviewers</h4>
+	<table>
+		<c:forEach items="${positiveReviewers}" var="reviewer">
+			<tr>
+			   <td> <a href="user?email=${reviewer }" class="button">${reviewer } </a>
+			   </td>
+			</tr>
+			</c:forEach>
+			</table>
+	</div> 
+	</c:if>
+
+	<c:if test="${sessionScope.email == 'root' && inactiveUsers != null}">
+	<div align="center">
+	<h4 align="center">Inactive Users</h4>
+	<table>
+		<c:forEach items="${inactiveUsers}" var="user">
+			<tr>
+			   <td> <a href="user?email=${userr }" class="button">${user } </a>
+			   </td>
+			</tr>
+			</c:forEach>
+			</table>
+	</div> 
+	</c:if>    
+	
 	<c:if test="${sessionScope.email == 'root' && users != null}">
 		<div align="center">
 		 <h4 align="center">Common Questions Form</h4>
