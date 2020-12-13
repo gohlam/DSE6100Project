@@ -243,22 +243,24 @@ public class UserDAO {
 	public List<User> getInactiveUsers() throws SQLException {
     		List<User> users = new ArrayList<user>();
     		connect_func();
-    		String sql = "SELECT * FROM Video AS V, Question AS Q, Reviews AS R " +
-				"GROUP BY Email " +
-				"HAVING SUM(V.URL) = 0 OR SUM(Q.questionID) = 0 OR SUM(R.comment) = 0";
+    		String sql = "SELECT * FROM User " +
+			"WHERE email NOT IN (SELECT DISTINCT email FROM Video " +
+			"UNION " +
+			"SELECT DISTINCT email FROM Review " +
+			"UNION " +
+			"SELECT DISTINCT email From Question)";
     		resultSet = statement.executeQuery(sql);
-		Email temp;    	
-		int revid;
+    		Email temp;    	
     		String email;
         	while (resultSet.next()) {
 			email = resultSet.getString("email");
         		temp = new Email("email");
         		users.add(temp);
-		}
+        	}
     		statement.close();
         	resultSet.close();
         	disconnect();
     		return users;
-	}
+    	}
 	
 }
