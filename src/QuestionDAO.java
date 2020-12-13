@@ -202,7 +202,7 @@ public class QuestionDAO {
 		}
 		resultSet.close();
 	   	statement.close();
-	    disconnect();
+	    	disconnect();
 		return questions;
 	}
 	
@@ -216,15 +216,40 @@ public class QuestionDAO {
 		String questionID;
 		String question;
 		while (resultSet.next()) {
-       		questionID = resultSet.getString("questionID");
-       		question = resultSet.getString("question");
-    		temp = new Question(questionID, question);
-    		questions.add(temp);
+       			questionID = resultSet.getString("questionID");
+       			question = resultSet.getString("question");
+    			temp = new Question(questionID, question);
+    			questions.add(temp);
 		}
 		resultSet.close();
 	   	statement.close();
-	    disconnect();
+	    	disconnect();
 		return questions;
+	}
+	
+	public List<Question> getCommonQuestionsWithVideos() throws SQLException {
+		List<Question> questions = new ArrayList<>();
+		connect_func();
+		String sql = "SELECT * FROM Question AS Q WHERE Q.questionID IN (" + 
+			"SELECT V.qid FROM Video AS V " + 
+			"WHERE V.email = 'allison@wayne.edu' " + 
+			"AND V.qid IN (" +
+				"SELECT V.qid FROM Video AS" + 
+				"WHERE V.email = 'ameen@wayne.edu'))";
+		resultSet = statement.executeQuery(sql);
+		Question temp;
+		String questionID;
+		String question;
+		while (resultSet.next()) {
+       			questionID = resultSet.getString("questionID");
+       			question = resultSet.getString("question");
+    			temp = new Question(questionID, question);
+    			questions.add(temp);
+	}
+	resultSet.close();
+	statement.close();
+	disconnect();
+	return questions;
 	}
 	
 }
