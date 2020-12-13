@@ -208,17 +208,24 @@ public class QuestionDAO {
 	public List<Question> getTopQuestionsWithMostVideos() throws SQLException {
 		List<Question> questions = new ArrayList<Question>();
 		connect_func();
-		String sql = "SELECT Q.questionID, Q.question " +
+		String sql = "SELECT Q.questionID, Q.question, COUNT(*) AS num " +
 				"FROM Question AS Q, Video AS V WHERE Q.questionID = V.qid GROUP BY Q.question ORDER BY COUNT(*) DESC";
 		resultSet = statement.executeQuery(sql);
 		Question temp;
 		String questionID;
 		String question;
-		while (resultSet.next()) {
-       		questionID = resultSet.getString("questionID");
-       		question = resultSet.getString("question");
-    		temp = new Question(question, questionID);
-    		questions.add(temp);
+       		 int maxCount = 0;
+       		 while (resultSet.next()) {
+        	int tempNum = resultSet.getInt("num");
+        	if (tempNum >= maxCount) {
+        		questionID = resultSet.getString("questionID");
+           		question = resultSet.getString("question");
+        		temp = new Question(question, questionID);
+        		questions.add(temp);
+        		maxCount = tempNum;
+        		} else {
+        		break;
+        		}     		
 		}
 		resultSet.close();
 	   	statement.close();
