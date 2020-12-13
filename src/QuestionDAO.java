@@ -209,7 +209,7 @@ public class QuestionDAO {
 		List<Question> questions = new ArrayList<Question>();
 		connect_func();
 		String sql = "SELECT Q.questionID, Q.question " +
-				"FROM Question AS Q, Video AS V WHERE Q.URL = V.URL GROUP BY Q.questionID ORDER BY COUNT(*) DESC";
+				"FROM Question AS Q, Video AS V WHERE Q.questionID = V.qid GROUP BY Q.question ORDER BY COUNT(*) DESC";
 		resultSet = statement.executeQuery(sql);
 		Question temp;
 		String questionID;
