@@ -629,7 +629,7 @@ public class ControlServlet extends HttpServlet {
         HttpSession session = request.getSession();
       	String email = (String) session.getAttribute("email");
       	if (email != null) {
-            List<String> positiveReviewers = reviewDAO.getTopUsersWithPositiveReviews();
+            List<String> positiveReviewers = userDAO.getTopUsersWithPositiveReviews();
       	    request.setAttribute("positiveReviewers", positiveReviewers);
     	    RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
     	    dispatcher.forward(request, response); 
