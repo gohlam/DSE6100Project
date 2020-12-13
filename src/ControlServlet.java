@@ -130,15 +130,15 @@ public class ControlServlet extends HttpServlet {
 		    case "/reviewer":
 		    	topReviewer(request, response);
 		    	break;
-//		    case "/positive":
-//		    	positiveReviewers(request, response);
-//		    	break;
+		    case "/positive":
+		    	positiveReviewers(request, response);
+		    	break;
 		    case "/poor":
 		    	poorQuestions(request, response);
 		    	break;
-//		    case "/inactive":
-//		    	inactiveUsers(request, response);
-//		    	break;	
+		    case "/inactive":
+		    	inactiveUsers(request, response);
+		    	break;	
 		    case "/user":
 		    	usersVideos(request, response);
 		    	break;

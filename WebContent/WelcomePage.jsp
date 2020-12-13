@@ -64,12 +64,9 @@
 		<div>
 		<a href="poor" class="button"> Poor Questions </a>
 		</div>
-		<c:if test="${sessionScope.email == 'root' }">
 		<div>
 		<a href="todayQuestions" class="button"> New Questions </a>
 		</div>
-		</c:if>
-		<c:if test="${sessionScope.email == 'root' }">
 		<div>
 		<a href="topQuestions" class="button"> Top Questions </a>
 		</div>
@@ -150,7 +147,7 @@
 	<table>
 		<c:forEach items="${inactiveUsers}" var="user">
 			<tr>
-			   <td> <a href="user?email=${userr }" class="button">${user } </a>
+			   <td> <a href="user?email=${user }" class="button">${user } </a>
 			   </td>
 			</tr>
 			</c:forEach>
