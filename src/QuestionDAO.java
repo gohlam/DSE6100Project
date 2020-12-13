@@ -182,7 +182,7 @@ public class QuestionDAO {
     }
 	
 	public List<Question> getNewQuestionsToday() throws SQLException {
-		List<Question> questions = new ArrayList<>();
+		List<Question> questions = new ArrayList<Question>();
 		connect_func();
 		String sql = "SELECT * FROM Question WHERE date = CURDATE()";
 		resultSet = statement.executeQuery(sql);
@@ -194,7 +194,7 @@ public class QuestionDAO {
 		while (resultSet.next()) {
 			questionID = resultSet.getString("questionID");
 			question = resultSet.getString("question");
-			date = resultSet.getString("postdate");
+			date = resultSet.getString("date");
 			email = resultSet.getString("email");
 			temp = new Question(questionID, question, email, date);
 			questions.add(temp);
@@ -206,7 +206,7 @@ public class QuestionDAO {
 	}
 	
 	public List<Question> getTopQuestionsWithMostVideos() throws SQLException {
-		List<Question> questions = new ArrayList<>();
+		List<Question> questions = new ArrayList<Question>();
 		connect_func();
 		String sql = "SELECT Q.questionID, Q.question " +
 				"FROM Question AS Q, Video AS V WHERE Q.URL = V.URL GROUP BY Q.questionID ORDER BY COUNT(*) DESC";
@@ -227,7 +227,7 @@ public class QuestionDAO {
 	}
 	
 	public List<Question> getCommonQuestions(String user1, String user2) throws SQLException {
-		List<Question> questions = new ArrayList<>();
+		List<Question> questions = new ArrayList<Question>();
 		connect_func();
 		String sql = "SELECT * FROM Question as Q WHERE " + 
 				"Q.questionID IN ( " + 
