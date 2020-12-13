@@ -64,6 +64,21 @@
 		<div>
 		<a href="poor" class="button"> Poor Questions </a>
 		</div>
+		<div>
+		<a href="NewQuestions" class="button"> New Questions </a>
+		</div>
+		<div>
+		<a href="TopQuestions" class="button"> Top Questions </a>
+		</div>
+		<div>
+		<a href="CommonQuestions" class="button"> Common Questions </a>
+		</div>
+		<div>
+		<a href="PositiveReviewers" class="button"> Positive Reviewers </a>
+		</div>
+		<div>
+		<a href="InactiveUsers" class="button"> Inactive Users </a>
+		</div>
 		</c:if>
     </div> 
      <c:if test="${sessionScope.email == 'root' && topReviewer != null}">
