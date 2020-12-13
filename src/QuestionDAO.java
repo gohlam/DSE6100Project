@@ -55,12 +55,12 @@ public class QuestionDAO {
     	connect_func();
     	String sql = "Select questionID, question from Question;";
     	resultSet = statement.executeQuery(sql);
-    	int qid;
+    	String qid;
     	String question;
     	Question temp;
     	List<Question> questions = new ArrayList<>();
         while (resultSet.next()) {
-        	qid = resultSet.getInt("questionID");
+        	qid = resultSet.getString("questionID");
         	question = resultSet.getString("question");
         	temp = new Question(question, qid);
         	questions.add(temp);
@@ -109,7 +109,7 @@ public class QuestionDAO {
         resultSet = preparedStatement.executeQuery();
         Question temp = new Question();
         while (resultSet.next()) {
-        	temp.setQuestionID(resultSet.getInt("questionID"));
+        	temp.setQuestionID(resultSet.getString("questionID"));
         	temp.setEmail(resultSet.getString("email"));
             temp.setQuestion(resultSet.getString("question"));
             temp.setDate(resultSet.getString("date"));
@@ -131,11 +131,11 @@ public class QuestionDAO {
     			"SELECT DISTINCT V2.qid from Video as V2, Review as R " + 
     			"WHERE (R.score = 'excellent' OR R.score = 'fair' OR R.score = 'good') AND V2.URL = R.URL)";
     	resultSet = statement.executeQuery(sql);
-    	int qid;
+    	String qid;
     	String question;
     	Question temp;
         while (resultSet.next()) {
-        	qid = resultSet.getInt("questionID");
+        	qid = resultSet.getString("questionID");
         	question = resultSet.getString("question");
         	temp = new Question(question, qid);
         	questions.add(temp);
@@ -182,47 +182,48 @@ public class QuestionDAO {
     	return tags;
     }
 	
-	public List<Video> getNewQuestionsToday() throws SQLException {
+	public List<Question> getNewQuestionsToday() throws SQLException {
 		List<Question> questions = new ArrayList<>();
 		connect_func();
-		String sql = "SELECT *" +
-				"FROM Question WHERE date = CURDATE()";
+		String sql = "SELECT * FROM Question WHERE date = CURDATE()";
 		resultSet = statement.executeQuery(sql);
 		Question temp;
-    		String questionID;
-    		String question;
-    		String date;
+		String questionID;
+		String question;
+		String date;
+		String email;
 		while (resultSet.next()) {
-            		questionID = resultSet.getString("questionID");
-            		question = resultSet.getString("question");
-            		date = resultSet.getString("postdate");
-            		temp = new Question(questionID, question, date);
-            		questions.add(temp);
+			questionID = resultSet.getString("questionID");
+			question = resultSet.getString("question");
+			date = resultSet.getString("postdate");
+			email = resultSet.getString("email");
+			temp = new Question(questionID, question, email, date);
+			questions.add(temp);
 		}
 		resultSet.close();
 	   	statement.close();
-	    	disconnect();
+	    disconnect();
 		return questions;
 	}
 	
-	public List<Video> getTopQuestionsWithMostVideos() throws SQLException {
+	public List<Question> getTopQuestionsWithMostVideos() throws SQLException {
 		List<Question> questions = new ArrayList<>();
 		connect_func();
-		String sql = "SELECT * V.URL, title, description, Q.questionID, Q.email, postdate " +
+		String sql = "SELECT Q.questionID, Q.question " +
 				"FROM Question AS Q, Video AS V WHERE Q.URL = V.URL GROUP BY Q.questionID ORDER BY COUNT(*) DESC";
 		resultSet = statement.executeQuery(sql);
 		Question temp;
-    		String questionID;
-    		String question;
+		String questionID;
+		String question;
 		while (resultSet.next()) {
-           		questionID = resultSet.getString("questionID");
-           		question = resultSet.getString("question");
-            		temp = new Question(questioID, question);
-            		questions.add(temp);
+       		questionID = resultSet.getString("questionID");
+       		question = resultSet.getString("question");
+    		temp = new Question(questionID, question);
+    		questions.add(temp);
 		}
 		resultSet.close();
 	   	statement.close();
-	    	disconnect();
+	    disconnect();
 		return questions;
 	}
 	

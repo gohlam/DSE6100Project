@@ -16,10 +16,7 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.sql.PreparedStatement;
-//import java.sql.Connection;
-//import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-//import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -216,49 +213,45 @@ public class UserDAO {
         return user;
     }
 
-	public List<User> getTopUsersWithPositiveReviews() throws SQLException {
-    		List<User> users = new ArrayList<user>();
-    		connect_func();
+	public List<String> getTopUsersWithPositiveReviews() throws SQLException {
+		List<String> users = new ArrayList<String>();
+		connect_func();
 		String sql = "SELECT DISTINCT U.email FROM User AS U, Review AS R " + 
-			"WHERE U.email = R.email AND U.email IN " + 
-			"(SELECT DISTINCT R2.email FROM Review AS R2 WHERE R2.email NOT IN( " + 
-			"SELECT DISTINCT R3.email from Review as R3 " + 
-			"WHERE R3.score = 'poor' OR R3.score = 'fair'))";
-    		resultSet = statement.executeQuery(sql);
-		Email temp;    	
-    		String email;
+		"WHERE U.email = R.email AND U.email IN " + 
+		"(SELECT DISTINCT R2.email FROM Review AS R2 WHERE R2.email NOT IN( " + 
+		"SELECT DISTINCT R3.email from Review as R3 " + 
+		"WHERE R3.score = 'poor' OR R3.score = 'fair'))";
+		resultSet = statement.executeQuery(sql);
+		User temp;    	
+		String email;
 		while (resultSet.next()) {
 			email = resultSet.getString("email");
-        		temp = new Email("email");
-        		users.add(temp);
+    		users.add(email);
 		}
-    		statement.close();
-       	 	resultSet.close();
-        	disconnect();
-    		return users;
+		statement.close();
+	 	resultSet.close();
+		disconnect();
+		return users;
 	}
 	
-	public List<User> getInactiveUsers() throws SQLException {
-    		List<User> users = new ArrayList<user>();
-    		connect_func();
-    		String sql = "SELECT * FROM User " +
-			"WHERE email NOT IN (SELECT DISTINCT email FROM Video " +
-			"UNION " +
-			"SELECT DISTINCT email FROM Review " +
-			"UNION " +
-			"SELECT DISTINCT email From Question)";
-    		resultSet = statement.executeQuery(sql);
-    		Email temp;    	
-    		String email;
-        	while (resultSet.next()) {
+	public List<String> getInactiveUsers() throws SQLException {
+		List<String> users = new ArrayList<String>();
+		connect_func();
+		String sql = "SELECT * FROM User " +
+		"WHERE email NOT IN (SELECT DISTINCT email FROM Video " +
+		"UNION " +
+		"SELECT DISTINCT email FROM Review " +
+		"UNION " +
+		"SELECT DISTINCT email From Question)";
+		resultSet = statement.executeQuery(sql);
+		String email;
+		while (resultSet.next()) {
 			email = resultSet.getString("email");
-        		temp = new Email("email");
-        		users.add(temp);
-        	}
-    		statement.close();
-        	resultSet.close();
-        	disconnect();
-    		return users;
-    	}
-	
+			users.add(email);
+		}
+		statement.close();
+		resultSet.close();
+		disconnect();
+		return users;
+    }
 }

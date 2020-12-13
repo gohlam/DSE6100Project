@@ -1,36 +1,34 @@
 public class Question {
-	protected int questionID;
+	protected String questionID;
 	protected String question;
 	protected String email;
-	protected String tag;
 	protected String date;
 
 	public Question() {
 	}
 
-	public Question(int questionID, String question, String email, String tag) {
+	public Question(String questionID, String question, String email) {
 		this.questionID = questionID;
 		this.question = question;
 		this.email = email;
-		this.tag = tag;
 	}
 		
-	public Question(int questionID, String question, String email, String tag, String date) {
-		this(questionID, question, email, tag);
+	public Question(String questionID, String question, String email, String date) {
+		this(questionID, question, email);
 		this.date = date;
 	}
 	
 	
-	public Question(String question, int questionID) {
+	public Question(String question, String questionID) {
 		this.question = question;
 		this.questionID = questionID;
 	}
 	
-	public int getQuestionID() {
+	public String getQuestionID() {
 		return questionID;
 	}
 	
-	public void setQuestionID(int questionID)  {
+	public void setQuestionID(String questionID)  {
 		this.questionID = questionID;
 	}
 	
@@ -48,14 +46,6 @@ public class Question {
 	
 	public String getEmail() {
 		return email;
-	}
-	
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
-	
-	public String getTag() {
-		return tag;
 	}
 	
 	public void setDate(String date) {
