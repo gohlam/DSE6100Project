@@ -201,7 +201,7 @@ public class QuestionDAO {
 		}
 		resultSet.close();
 	   	statement.close();
-	    disconnect();
+	    	disconnect();
 		return questions;
 	}
 	
@@ -222,7 +222,7 @@ public class QuestionDAO {
 		}
 		resultSet.close();
 	   	statement.close();
-	    disconnect();
+	    	disconnect();
 		return questions;
 	}
 	
@@ -254,6 +254,5 @@ public class QuestionDAO {
 	    disconnect();
 		return questions;
 	}
-	
 	
 }

@@ -115,15 +115,15 @@ public class ControlServlet extends HttpServlet {
 		    case "/cool":
 		    	coolVideos(request, response);
 		    	break;
-//		    case "/today":
-//		    	newQuestions(request, response);
-//		    	break;
+		    case "/today":
+		    	todayQuestions(request, response);
+		    	break;
 		    case "/hot":
 		    	hotVideos(request, response);
 		    	break;
-//		    case "/top":
-//		    	topQuestions(request, response);
-//		    	break;
+		    case "/topQuestions":
+		    	topQuestions(request, response);
+		    	break;
 		    case "/popular":
 		    	popularTags(request, response);
 		    	break;
@@ -547,7 +547,20 @@ public class ControlServlet extends HttpServlet {
 	         dispatcher.forward(request, response); 	
 	  	}
     }
-    
+    private void todayQuestions(HttpServletRequest request, HttpServletResponse response)
+    		throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+      	String email = (String) session.getAttribute("email");
+      	if (email != null) {
+      	    List<Question> todayQuestions = questionDAO.getNewQuestionsToday();
+      	    request.setAttribute("todayQuestions", todayQuestions);
+    	    RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+    	    dispatcher.forward(request, response);
+    	} else {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+    		dispatcher.forward(request, response);
+    	}
+    }
     private void hotVideos(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
     	HttpSession session = request.getSession();
@@ -567,7 +580,20 @@ public class ControlServlet extends HttpServlet {
 	         dispatcher.forward(request, response); 	
 	  	}
     }
-    
+    private void topQuestions(HttpServletRequest request, HttpServletResponse response)
+    		throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+      	String email = (String) session.getAttribute("email");
+      	if (email != null) {
+      	    List<Question> topQuestions = questionDAO.getTopQuestionsWithMostVideos();
+      	    request.setAttribute("topQuestions", topQuestions);
+    	    RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+    	    dispatcher.forward(request, response); 
+    	} else {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+    		dispatcher.forward(request, response); 	
+    	}
+    }
     private void popularTags(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
     	HttpSession session = request.getSession();
@@ -582,7 +608,7 @@ public class ControlServlet extends HttpServlet {
 	         dispatcher.forward(request, response); 	
 	  	}
     }
-    
+
     private void topReviewer(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
     	HttpSession session = request.getSession();
@@ -598,6 +624,21 @@ public class ControlServlet extends HttpServlet {
 	  	} 
     }
     
+    private void positiveReviewers(HttpServletRequest request, HttpServletResponse response)
+    		throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+      	String email = (String) session.getAttribute("email");
+      	if (email != null) {
+            List<String> positiveReviewers = reviewDAO.getTopUsersWithPositiveReviews();
+      	    request.setAttribute("positiveReviewers", positiveReviewers);
+    	    RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+    	    dispatcher.forward(request, response); 
+    	} else {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+    		dispatcher.forward(request, response); 	
+    	}
+    }
+    
     private void poorQuestions(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
     	HttpSession session = request.getSession();
@@ -611,6 +652,21 @@ public class ControlServlet extends HttpServlet {
 	  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
 	         dispatcher.forward(request, response); 	
 	  	}
+    }
+    
+    private void inactiveUsers(HttpServletRequest request, HttpServletResponse response)
+    		throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+      	String email = (String) session.getAttribute("email");
+      	if (email != null) {
+      	    List<String> inactiveUsers = userDAO.getInactiveUsers();
+      	    request.setAttribute("inactiveUsers", inactiveUsers);
+    	    RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+    	    dispatcher.forward(request, response); 
+    	} else {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+    		dispatcher.forward(request, response); 	
+    	}
     }
     
     private void usersVideos(HttpServletRequest request, HttpServletResponse response)
