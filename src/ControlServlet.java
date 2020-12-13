@@ -145,7 +145,7 @@ public class ControlServlet extends HttpServlet {
 		    case "/questionVideos":
 		    	videoQuestion(request, response);
 		    	break;
-		    case "/commonQuestions":
+		    case "/common":
 		    	showCommonQuestionsForm(request, response);
 		    	break;
 		    case "/commonQuestionsResults":
@@ -585,7 +585,7 @@ public class ControlServlet extends HttpServlet {
         HttpSession session = request.getSession();
       	String email = (String) session.getAttribute("email");
       	if (email != null) {
-      	    List<Question> topQuestions = questionDAO.getTopQuestionsWithMostVideos();
+      	    List<String> topQuestions = questionDAO.getTopQuestionsWithMostVideos();
       	    request.setAttribute("topQuestions", topQuestions);
     	    RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
     	    dispatcher.forward(request, response); 

@@ -65,7 +65,7 @@
 		<a href="poor" class="button"> Poor Questions </a>
 		</div>
 		<div>
-		<a href="todayQuestions" class="button"> New Questions </a>
+		<a href="today" class="button"> New Questions </a>
 		</div>
 		<div>
 		<a href="topQuestions" class="button"> Top Questions </a>
