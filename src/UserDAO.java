@@ -219,23 +219,21 @@ public class UserDAO {
 	public List<User> getTopUsersWithPositiveReviews() throws SQLException {
     		List<User> users = new ArrayList<user>();
     		connect_func();
-		String sql = "SELECT * FROM Video AS V, Question AS Q " + 
-				"WHERE V.qid = Q.questionID AND V.URL IN " + 
-				"(SELECT DISTINCT V3.URL FROM Video AS V3, Review AS R2 WHERE V3.URL = R2.URL " + 
-				"AND V3.URL NOT IN( " + 
-				"SELECT DISTINCT V2.URL FROM Video AS V2, Review AS R " + 
-				"WHERE (R.score = 'poor' OR R.score = 'fair') AND V2.URL = R.URL))";
+		String sql = "SELECT DISTINCT U.email FROM User AS U, Review AS R " + 
+			"WHERE U.email = R.email AND U.email IN " + 
+			"(SELECT DISTINCT R2.email FROM Review AS R2 WHERE R2.email NOT IN( " + 
+			"SELECT DISTINCT R3.email from Review as R3 " + 
+			"WHERE R3.score = 'poor' OR R3.score = 'fair'))";
     		resultSet = statement.executeQuery(sql);
 		Email temp;    	
-		int revid;
     		String email;
-        	while (resultSet.next()) {
+		while (resultSet.next()) {
 			email = resultSet.getString("email");
         		temp = new Email("email");
         		users.add(temp);
 		}
     		statement.close();
-        	resultSet.close();
+       	 	resultSet.close();
         	disconnect();
     		return users;
 	}
