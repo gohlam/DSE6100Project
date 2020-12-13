@@ -224,7 +224,7 @@
 	<table>
 		<c:forEach items="${topQuestions}" var="question">
 			<tr>
-			   <td> ${question.question }
+			   <td> ${question }
 			   </td>
 			</tr>
 			</c:forEach>

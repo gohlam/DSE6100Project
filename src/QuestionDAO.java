@@ -211,7 +211,6 @@ public class QuestionDAO {
 		String sql = "SELECT Q.question, COUNT(*) AS num " +
 				"FROM Question AS Q, Video AS V WHERE Q.questionID = V.qid GROUP BY Q.question ORDER BY COUNT(*) DESC";
 		resultSet = statement.executeQuery(sql);
-		Question temp;
 		String question;
 		int maxCount = 0;
 		while (resultSet.next()) {
