@@ -186,22 +186,17 @@ public class QuestionDAO {
 		List<Question> questions = new ArrayList<>();
 		connect_func();
 		String sql = "SELECT *" +
-				"FROM Questions WHERE date = CURDATE()";
+				"FROM Question WHERE date = CURDATE()";
 		resultSet = statement.executeQuery(sql);
 		Question temp;
-    		int questionID;
+    		String questionID;
     		String question;
-    		String email;
-		String tag;
-    		int tag;
     		String date;
 		while (resultSet.next()) {
-            		questionID = resultSet.getInt("questionID");
+            		questionID = resultSet.getString("questionID");
             		question = resultSet.getString("question");
-			email = resultSet.getString("email");
-            		tag = resultSet.getString("tag");
             		date = resultSet.getString("postdate");
-            		temp = new Question(questionID, question, email, tag date);
+            		temp = new Question(questionID, question, date);
             		questions.add(temp);
 		}
 		resultSet.close();
@@ -213,28 +208,16 @@ public class QuestionDAO {
 	public List<Video> getTopQuestionsWithMostVideos() throws SQLException {
 		List<Question> questions = new ArrayList<>();
 		connect_func();
-		String sql = "SELECT * V.URL, title, description, questionID, Q.email, postdate " +
-				"FROM Questions AS Q, Videos AS V WHERE Q.URL = V.URL GROUP BY Q.URL ORDER BY COUNT(*) DESC";
+		String sql = "SELECT * V.URL, title, description, Q.questionID, Q.email, postdate " +
+				"FROM Question AS Q, Video AS V WHERE Q.URL = V.URL GROUP BY Q.questionID ORDER BY COUNT(*) DESC";
 		resultSet = statement.executeQuery(sql);
 		Question temp;
-		String url;
-		String title;
-		String description;
-    		int questionID;
+    		String questionID;
     		String question;
-    		String email;
-    		String tag;
-    		String date;
 		while (resultSet.next()) {
-	    		url = resultSet.getString("V.URL");
-            		title = resultSet.getString("title");
-			description = resultSet.getString("description");
-           		questionID = resultSet.getInt("questionID");
+           		questionID = resultSet.getString("questionID");
            		question = resultSet.getString("question");
-            		email = resultSet.getString("Q.email");
-            		tag = resultSet.getString("Q.tag");
-            		date = resultSet.getString("postdate");  
-            		temp = new Question(utl, title, description, qid, question, email, tag, date);
+            		temp = new Question(questioID, question);
             		questions.add(temp);
 		}
 		resultSet.close();
