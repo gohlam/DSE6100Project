@@ -173,7 +173,6 @@ public class QuestionDAO {
     	String tag;
     	while (resultSet.next()) {
     		tag = resultSet.getString("T.tag");
-    		System.out.println(tag);
     		tags.add(tag);
     	}
     	statement.close();
@@ -218,7 +217,7 @@ public class QuestionDAO {
 		while (resultSet.next()) {
        		questionID = resultSet.getString("questionID");
        		question = resultSet.getString("question");
-    		temp = new Question(questionID, question);
+    		temp = new Question(question, questionID);
     		questions.add(temp);
 		}
 		resultSet.close();
@@ -226,5 +225,35 @@ public class QuestionDAO {
 	    disconnect();
 		return questions;
 	}
+	
+	public List<Question> getCommonQuestions(String user1, String user2) throws SQLException {
+		List<Question> questions = new ArrayList<>();
+		connect_func();
+		String sql = "SELECT * FROM Question as Q WHERE " + 
+				"Q.questionID IN ( " + 
+				"SELECT V.qid FROM Video as V " + 
+				"WHERE V.email = ? " + 
+				"AND V.qid IN ( " + 
+				"SELECT V.qid FROM Video as V " + 
+				"WHERE V.email = ?))";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, user1);
+		preparedStatement.setString(2, user2);
+        resultSet = preparedStatement.executeQuery();
+		Question temp;
+		String questionID;
+		String question;
+		while (resultSet.next()) {
+       		questionID = resultSet.getString("questionID");
+       		question = resultSet.getString("question");
+    		temp = new Question(question, questionID);
+    		questions.add(temp);
+		}
+		resultSet.close();
+	   	statement.close();
+	    disconnect();
+		return questions;
+	}
+	
 	
 }

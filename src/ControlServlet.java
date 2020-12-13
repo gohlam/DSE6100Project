@@ -115,42 +115,41 @@ public class ControlServlet extends HttpServlet {
 		    case "/cool":
 		    	coolVideos(request, response);
 		    	break;
-		    case "/new":
-		    	newQuestions(request, response);
-		    	break;
+//		    case "/today":
+//		    	newQuestions(request, response);
+//		    	break;
 		    case "/hot":
 		    	hotVideos(request, response);
 		    	break;
-		    case "/top":
-		    	topQuestions(request, response);
-		    	break;
-		    	Common questions
+//		    case "/top":
+//		    	topQuestions(request, response);
+//		    	break;
 		    case "/popular":
 		    	popularTags(request, response);
 		    	break;
-		    case "/common":
-		    	commonQuestions(request, response);
-		    	break;
-		    case "/top":
+		    case "/reviewer":
 		    	topReviewer(request, response);
 		    	break;
-		    case "/positive":
-		    	positiveReviewers(request, response);
-		    	break;
+//		    case "/positive":
+//		    	positiveReviewers(request, response);
+//		    	break;
 		    case "/poor":
 		    	poorQuestions(request, response);
 		    	break;
-		    case "/inactive":
-		    	inactiveUsers(request, response);
-		    	break;	
+//		    case "/inactive":
+//		    	inactiveUsers(request, response);
+//		    	break;	
 		    case "/user":
 		    	usersVideos(request, response);
 		    	break;
 		    case "/questionVideos":
 		    	videoQuestion(request, response);
 		    	break;
-		    case "/":
-		    	videoQuestion(request, response);
+		    case "/commonQuestions":
+		    	showCommonQuestionsForm(request, response);
+		    	break;
+		    case "/commonQuestionsResults":
+		    	getCommonQuestions(request, response);
 		    	break;
             default:
             	showLoginForm(request, response);
@@ -304,7 +303,8 @@ public class ControlServlet extends HttpServlet {
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("Success.jsp");       
 	        dispatcher.forward(request, response);
   	  	} else {
-  	  		
+	  	  	RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+	        dispatcher.forward(request, response);
   	  	}
     }   
     
@@ -323,8 +323,8 @@ public class ControlServlet extends HttpServlet {
 	      	RequestDispatcher dispatcher = request.getRequestDispatcher("Videos.jsp");       
 	        dispatcher.forward(request, response);
   	  	} else {
-  	  	 RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
-         dispatcher.forward(request, response);
+  	  		RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+  	  		dispatcher.forward(request, response);
   	  	}
     }
     
@@ -660,5 +660,41 @@ public class ControlServlet extends HttpServlet {
 	         dispatcher.forward(request, response); 	
 	  	} 
    }
+    
+    private void showCommonQuestionsForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+	    if (email != null) { 
+	    	List<String> userList = userDAO.getUsers();
+	  		request.setAttribute("users", userList);
+	  		RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+		    dispatcher.forward(request, response);
+	    } else {
+  	  	  RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+          dispatcher.forward(request, response); 	
+	  	} 
+    }
+    
+    private void getCommonQuestions(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession session = request.getSession();
+  	  	String email = (String) session.getAttribute("email");
+	    if (email != null) { 
+	    	List<String> userList = userDAO.getUsers();
+	  		request.setAttribute("users", userList);
+	    	String email1 = request.getParameter("user1");
+	    	String email2 = request.getParameter("user2");
+	    	List<Question> commonQuestions = questionDAO.getCommonQuestions(email1, email2);
+	  		request.setAttribute("commonQuestions", commonQuestions);
+	  		request.setAttribute("user1", email1);
+	  		request.setAttribute("user2", email2);
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePage.jsp");
+		    dispatcher.forward(request, response);
+	    } else {
+  	  	  RequestDispatcher dispatcher = request.getRequestDispatcher("LoginForm.jsp");
+          dispatcher.forward(request, response); 	
+	  	} 
+    }
     
 }

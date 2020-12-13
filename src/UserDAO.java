@@ -212,6 +212,23 @@ public class UserDAO {
         disconnect();
         return user;
     }
+    
+    public List<String> getUsers() throws SQLException {
+    	connect_func();
+    	String sql = "Select DISTINCT email from User";
+		resultSet = statement.executeQuery(sql);
+		String email;
+		List<String> users = new ArrayList<>();
+        while (resultSet.next()) {
+            email = resultSet.getString("email");
+            users.add(email);
+        }
+        statement.close(); 
+        resultSet.close();
+        statement.close();
+        disconnect();
+        return users;
+    }
 
 	public List<String> getTopUsersWithPositiveReviews() throws SQLException {
 		List<String> users = new ArrayList<String>();

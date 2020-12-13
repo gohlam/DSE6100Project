@@ -57,7 +57,7 @@
 		</c:if>
 		<c:if test="${sessionScope.email == 'root' }">
 		<div>
-		<a href="top" class="button"> Top Reviewer </a>
+		<a href="reviewer" class="button"> Top Reviewer </a>
 		</div>
 		</c:if>
 		<c:if test="${sessionScope.email == 'root' }">
@@ -71,7 +71,7 @@
 		<a href="TopQuestions" class="button"> Top Questions </a>
 		</div>
 		<div>
-		<a href="CommonQuestions" class="button"> Common Questions </a>
+		<a href="commonQuestions" class="button"> Common Questions </a>
 		</div>
 		<div>
 		<a href="PositiveReviewers" class="button"> Positive Reviewers </a>
@@ -114,6 +114,55 @@
 			<c:forEach items="${popularTags}" var="tag">
 				<tr>
 			   		<td> ${tag }
+			   		</td>
+			   	</tr>
+				</c:forEach>
+			</table>
+		</div> 
+	</c:if>
+	<c:if test="${sessionScope.email == 'root' && users != null}">
+		<div align="center">
+		 <h4 align="center">Common Questions Form</h4>
+		  <form action="commonQuestionsResults" method="post">
+		 
+		 <table>
+			<tr>
+                <th>Select User 1: </th>
+                <td>
+                     <select name="user1">
+   	                    <c:forEach items="${users}" var="u">
+				        	<option value="${u}" <c:if test="${user1 == u}"> selected </c:if>>${u}</option>
+				    	</c:forEach>
+                    </select>    
+                </td>
+            </tr>
+            <tr>
+                <th>Select User 2: </th>
+                <td>
+                     <select name="user2">
+   	                    <c:forEach items="${users}" var="u2">
+				        	<option value="${u2}" <c:if test="${user2 == u2}"> selected </c:if>>${u2}</option>
+				    	</c:forEach>
+                    </select>    
+                </td>
+            </tr>
+             <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Find Common Questions" />
+                </td>
+            </tr>
+			</table>
+			        </form>
+			
+		</div> 
+	</c:if>
+	<c:if test="${sessionScope.email == 'root' && users != null  && commonQuestions != null}">
+		<div align="center">
+		 <h4 align="center">Common Question Results</h4>
+		 <table>
+			<c:forEach items="${commonQuestions}" var="q">
+				<tr>
+			   		<td> ${q.question }
 			   		</td>
 			   	</tr>
 				</c:forEach>
