@@ -204,6 +204,32 @@
 			</table>
 		</div> 
 	</c:if>
-	
+		<c:if test="${sessionScope.email == 'root' && todayQuestions != null}">
+	<div align="center">
+	<h4 align="center">New Questions</h4>
+	<table>
+		<c:forEach items="${todayQuestions}" var="question">
+			<tr>
+			   <td> ${question.question }
+			   </td>
+			</tr>
+			</c:forEach>
+			</table>
+	</div> 
+</c:if>
+
+<c:if test="${sessionScope.email == 'root' && topQuestions != null}">
+	<div align="center">
+	<h4 align="center">Top Questions</h4>
+	<table>
+		<c:forEach items="${topQuestions}" var="question">
+			<tr>
+			   <td> ${question.question }
+			   </td>
+			</tr>
+			</c:forEach>
+			</table>
+	</div> 
+</c:if>
 </body>
 </html>
