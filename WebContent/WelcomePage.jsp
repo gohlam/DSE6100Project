@@ -64,20 +64,29 @@
 		<div>
 		<a href="poor" class="button"> Poor Questions </a>
 		</div>
+		<c:if test="${sessionScope.email == 'root' }">
 		<div>
-		<a href="NewQuestions" class="button"> New Questions </a>
+		<a href="todayQuestions" class="button"> New Questions </a>
 		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
 		<div>
-		<a href="TopQuestions" class="button"> Top Questions </a>
+		<a href="topQuestions" class="button"> Top Questions </a>
 		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
 		<div>
-		<a href="commonQuestions" class="button"> Common Questions </a>
+		<a href="common" class="button"> Common Questions </a>
 		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
 		<div>
-		<a href="PositiveReviewers" class="button"> Positive Reviewers </a>
+		<a href="positive" class="button"> Positive Reviewers </a>
 		</div>
+		</c:if>
+		<c:if test="${sessionScope.email == 'root' }">
 		<div>
-		<a href="InactiveUsers" class="button"> Inactive Users </a>
+		<a href="inactive" class="button"> Inactive Users </a>
 		</div>
 		</c:if>
     </div> 
